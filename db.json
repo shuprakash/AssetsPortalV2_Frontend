@@ -1,0 +1,138 @@
+{
+  "searchResults": [
+    {
+      "id": 1,
+      "title": "Agentic AI Strategy Framework",
+      "path": "https://sharepoint.example.com/sites/etp/docs/agentic-ai-framework.pdf",
+      "author": "John Smith",
+      "lastModified": "Sep 15, 2026",
+      "fileType": "pdf",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "Comprehensive framework for implementing agentic AI solutions across enterprise.",
+      "siteName": "ET&P Knowledge Hub",
+      "webUrl": "https://sharepoint.example.com/sites/etp"
+    },
+    {
+      "id": 2,
+      "title": "GenAI Use Cases - Supply Chain",
+      "path": "https://sharepoint.example.com/sites/etp/docs/genai-supply-chain.pptx",
+      "author": "Sarah Johnson",
+      "lastModified": "Sep 10, 2026",
+      "fileType": "pptx",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "Presentation covering GenAI applications in supply chain management.",
+      "siteName": "ET&P Knowledge Hub",
+      "webUrl": "https://sharepoint.example.com/sites/etp"
+    },
+    {
+      "id": 3,
+      "title": "SAP S/4HANA Migration Playbook",
+      "path": "https://sharepoint.example.com/sites/etp/docs/sap-migration.docx",
+      "author": "Mike Chen",
+      "lastModified": "Sep 8, 2026",
+      "fileType": "docx",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "Step-by-step guide for SAP S/4HANA migration projects.",
+      "siteName": "SAP CoE",
+      "webUrl": "https://sharepoint.example.com/sites/sap"
+    },
+    {
+      "id": 4,
+      "title": "Finance Transformation Assets",
+      "path": "https://sharepoint.example.com/sites/etp/finance",
+      "author": "Lisa Park",
+      "lastModified": "Sep 5, 2026",
+      "fileType": "",
+      "contentClass": "STS_Site",
+      "summary": "Collection of finance transformation assets and templates.",
+      "siteName": "Finance Hub",
+      "webUrl": "https://sharepoint.example.com/sites/finance"
+    },
+    {
+      "id": 5,
+      "title": "Cloud Migration ROI Calculator",
+      "path": "https://sharepoint.example.com/sites/etp/docs/cloud-roi.xlsx",
+      "author": "David Lee",
+      "lastModified": "Sep 1, 2026",
+      "fileType": "xlsx",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "Excel-based ROI calculator for cloud migration projects.",
+      "siteName": "Cloud CoE",
+      "webUrl": "https://sharepoint.example.com/sites/cloud"
+    },
+    {
+      "id": 6,
+      "title": "Digital Twin Implementation Guide",
+      "path": "https://sharepoint.example.com/sites/etp/docs/digital-twin-guide.pdf",
+      "author": "Emily Wang",
+      "lastModified": "Aug 28, 2026",
+      "fileType": "pdf",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "Best practices for digital twin implementation in manufacturing.",
+      "siteName": "ET&P Knowledge Hub",
+      "webUrl": "https://sharepoint.example.com/sites/etp"
+    },
+    {
+      "id": 7,
+      "title": "Cybersecurity Assessment Templates",
+      "path": "https://sharepoint.example.com/sites/etp/lists/cybersecurity",
+      "author": "Tom Wilson",
+      "lastModified": "Aug 25, 2026",
+      "fileType": "",
+      "contentClass": "STS_List",
+      "summary": "SharePoint list of cybersecurity assessment templates and checklists.",
+      "siteName": "Security Hub",
+      "webUrl": "https://sharepoint.example.com/sites/security"
+    },
+    {
+      "id": 8,
+      "title": "Customer Experience Analytics Dashboard",
+      "path": "https://sharepoint.example.com/sites/etp/docs/cx-analytics.pptx",
+      "author": "Rachel Kim",
+      "lastModified": "Aug 20, 2026",
+      "fileType": "pptx",
+      "contentClass": "STS_ListItem_DocumentLibrary",
+      "summary": "PowerBI-integrated analytics dashboard for customer experience metrics.",
+      "siteName": "CX Hub",
+      "webUrl": "https://sharepoint.example.com/sites/cx"
+    }
+  ],
+  "assets": [
+    {
+      "id": 1,
+      "title": "Agentic AI Accelerator",
+      "category": "Artificial Intelligence",
+      "status": "Published",
+      "createdDate": "2026-06-15",
+      "modifiedDate": "2026-09-10",
+      "createdBy": "John Smith"
+    },
+    {
+      "id": 2,
+      "title": "SAP Migration Toolkit",
+      "category": "SAP",
+      "status": "In Review",
+      "createdDate": "2026-05-20",
+      "modifiedDate": "2026-09-08",
+      "createdBy": "Mike Chen"
+    },
+    {
+      "id": 3,
+      "title": "Supply Chain Optimizer",
+      "category": "Supply Chain",
+      "status": "Published",
+      "createdDate": "2026-04-10",
+      "modifiedDate": "2026-08-30",
+      "createdBy": "Sarah Johnson"
+    },
+    {
+      "id": 4,
+      "title": "Finance Dashboard Template",
+      "category": "Finance",
+      "status": "Draft",
+      "createdDate": "2026-07-01",
+      "modifiedDate": "2026-09-01",
+      "createdBy": "Lisa Park"
+    }
+  ]
+}
