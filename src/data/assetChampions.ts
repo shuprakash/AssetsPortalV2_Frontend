@@ -1,0 +1,145 @@
+export type ChampionRegion = 'india' | 'australia' | 'middle-east' | 'japan' | 'china' | 'united-kingdom' | 'global';
+
+export interface IAssetChampion {
+  assetCount: number;
+  initials: string;
+  name: string;
+  portfolios: string[];
+  region: ChampionRegion;
+  regionLabel: string;
+  role: string;
+  since: number;
+}
+
+export const assetChampions: IAssetChampion[] = [
+  {
+    initials: 'PY',
+    name: 'Patil, Yatin',
+    role: 'ET&P Asset Champion',
+    region: 'india',
+    regionLabel: '🇮🇳 India',
+    portfolios: ['DEC', 'SAP', 'Oracle'],
+    assetCount: 28,
+    since: 2023,
+  },
+  {
+    initials: 'KA',
+    name: 'Kumar, Ashis',
+    role: 'Asset Lead - Digital Core',
+    region: 'india',
+    regionLabel: '🇮🇳 India',
+    portfolios: ['DEC', 'Tech Strategy'],
+    assetCount: 6,
+    since: 2023,
+  },
+  {
+    initials: 'JL',
+    name: 'Jaganathan, Lakshminivashini',
+    role: 'AI Lead',
+    region: 'india',
+    regionLabel: '🇮🇳 India',
+    portfolios: ['SAP', 'Emerging Tech'],
+    assetCount: 14,
+    since: 2024,
+  },
+  {
+    initials: 'SV',
+    name: 'Shetty, Vipin',
+    role: 'SAP Asset Champion',
+    region: 'australia',
+    regionLabel: '🇦🇺 Australia',
+    portfolios: ['SAP'],
+    assetCount: 12,
+    since: 2023,
+  },
+  {
+    initials: 'PS',
+    name: 'Poojaru, Sandeep',
+    role: 'SAP AI Lead',
+    region: 'australia',
+    regionLabel: '🇦🇺 Australia',
+    portfolios: ['SAP', 'Emerging Tech'],
+    assetCount: 14,
+    since: 2024,
+  },
+  {
+    initials: 'SK',
+    name: 'Saurav, Kumar',
+    role: 'Oracle Asset Champion',
+    region: 'middle-east',
+    regionLabel: '🇦🇪 Middle East',
+    portfolios: ['Oracle'],
+    assetCount: 12,
+    since: 2022,
+  },
+  {
+    initials: 'GA',
+    name: 'Garate, Ashlesh',
+    role: 'Oracle AI Lead',
+    region: 'middle-east',
+    regionLabel: '🇦🇪 Middle East',
+    portfolios: ['Oracle', 'Supply Chain & Ops'],
+    assetCount: 20,
+    since: 2024,
+  },
+  {
+    initials: 'KR',
+    name: 'Kapoor, Rashmi',
+    role: 'Finance Asset Champion',
+    region: 'japan',
+    regionLabel: '🇯🇵 Japan',
+    portfolios: ['Finance'],
+    assetCount: 3,
+    since: 2023,
+  },
+  {
+    initials: 'CP',
+    name: 'Chaturvedi, Pallav',
+    role: 'Finance AI Lead',
+    region: 'japan',
+    regionLabel: '🇯🇵 Japan',
+    portfolios: ['Finance', 'Tech Strategy'],
+    assetCount: 5,
+    since: 2024,
+  },
+  {
+    initials: 'LW',
+    name: 'Wei, Lin',
+    role: 'Computer Use Champion',
+    region: 'china',
+    regionLabel: '🇨🇳 China',
+    portfolios: ['SAP', 'Process Automation'],
+    assetCount: 9,
+    since: 2024,
+  },
+  {
+    initials: 'MZ',
+    name: 'Zhang, Mei',
+    role: 'Data Management Lead',
+    region: 'china',
+    regionLabel: '🇨🇳 China',
+    portfolios: ['Data Management'],
+    assetCount: 7,
+    since: 2023,
+  },
+  {
+    initials: 'HM',
+    name: 'Morgan, Harriet',
+    role: 'UK Asset Champion',
+    region: 'united-kingdom',
+    regionLabel: '🇬🇧 United Kingdom',
+    portfolios: ['Compliance & Risk', 'Process Automation'],
+    assetCount: 11,
+    since: 2023,
+  },
+  {
+    initials: 'RG',
+    name: 'Global, Rohan',
+    role: 'Global Asset Network Lead',
+    region: 'global',
+    regionLabel: '🌐 Global',
+    portfolios: ['Tech Strategy', 'Emerging Tech'],
+    assetCount: 18,
+    since: 2022,
+  },
+];

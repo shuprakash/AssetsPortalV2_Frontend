@@ -22,7 +22,7 @@ import { etpTokens, getModeTokens } from '../../theme/etpTheme';
 
 export type PortalNavKey = 'results' | 'home' | 'explore' | 'champions' | 'agentic' | 'popular';
 
-export interface IPortalShellProps {
+export interface INavigationBarProps {
   activeNav: PortalNavKey;
   mode: PaletteMode;
   children: React.ReactNode;
@@ -32,15 +32,15 @@ export interface IPortalShellProps {
 }
 
 const navItems: Array<{ key: PortalNavKey; label: string; icon: React.ReactNode }> = [
-  { key: 'results', label: 'Search', icon: <SearchIcon /> },
-  { key: 'home', label: 'Home', icon: <HomeOutlinedIcon /> },
-  { key: 'explore', label: 'Explore', icon: <ExploreOutlinedIcon /> },
-  { key: 'champions', label: 'Asset Champions', icon: <PeopleAltOutlinedIcon /> },
-  { key: 'agentic', label: 'Agentic AI', icon: <AutoAwesomeIcon /> },
-  { key: 'popular', label: 'Popular', icon: <LocalFireDepartmentOutlinedIcon /> },
+  { key: 'results', label: 'Search', icon: <SearchIcon fontSize="small" /> },
+  { key: 'home', label: 'Home', icon: <HomeOutlinedIcon fontSize="small" /> },
+  { key: 'explore', label: 'Explore', icon: <ExploreOutlinedIcon fontSize="small" /> },
+  { key: 'champions', label: 'Asset Champions', icon: <PeopleAltOutlinedIcon fontSize="small" /> },
+  { key: 'agentic', label: 'Agentic AI', icon: <AutoAwesomeIcon fontSize="small" /> },
+  { key: 'popular', label: 'Popular', icon: <LocalFireDepartmentOutlinedIcon fontSize="small" /> },
 ];
 
-const PortalShell: React.FC<IPortalShellProps> = ({
+const NavigationBar: React.FC<INavigationBarProps> = ({
   activeNav,
   mode,
   children,
@@ -49,10 +49,15 @@ const PortalShell: React.FC<IPortalShellProps> = ({
   onToggleTheme,
 }) => {
   const [query, setQuery] = React.useState<string>('');
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
 
   const runSearch = React.useCallback(() => {
     onSearch(query.trim());
   }, [onSearch, query]);
+
+  React.useEffect(() => {
+    contentRef.current?.scrollTo({ top: 0, left: 0 });
+  }, [activeNav]);
 
   return (
     <Box
@@ -115,20 +120,20 @@ const PortalShell: React.FC<IPortalShellProps> = ({
           sx={(theme) => {
             const t = getModeTokens(theme.palette.mode);
             return {
-            width: 46,
-            height: 46,
-            borderRadius: '14px',
-            display: 'grid',
-            placeItems: 'center',
-            fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
-            fontSize: 15,
-            fontWeight: 900,
-            color: etpTokens.ink,
-            background: `linear-gradient(135deg, ${t.lime}, ${t.green})`,
-            boxShadow: '0 6px 18px rgba(134,188,37,.4)',
-            mb: 1.75,
-            letterSpacing: '-.5px',
-          };
+              width: 46,
+              height: 46,
+              borderRadius: '14px',
+              display: 'grid',
+              placeItems: 'center',
+              fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
+              fontSize: 15,
+              fontWeight: 900,
+              color: etpTokens.ink,
+              background: `linear-gradient(135deg, ${t.lime}, ${t.green})`,
+              boxShadow: '0 6px 18px rgba(134,188,37,.4)',
+              mb: 1.75,
+              letterSpacing: '-.5px',
+            };
           }}
         >
           E&amp;P
@@ -193,25 +198,27 @@ const PortalShell: React.FC<IPortalShellProps> = ({
                 };
               }}
             >
-              {mode === 'light' ? <WbSunnyOutlinedIcon /> : <DarkModeOutlinedIcon />}
-            </IconButton>
+              {mode === 'light' ? (<WbSunnyOutlinedIcon fontSize="small" />) : (<DarkModeOutlinedIcon fontSize="small" />)}            </IconButton>
           </Tooltip>
           <Box
             title="Ashish Kumar"
             sx={(theme) => {
               const t = getModeTokens(theme.palette.mode);
               return {
-              width: 44,
-              height: 44,
-              borderRadius: '13px',
-              display: 'grid',
-              placeItems: 'center',
-              fontWeight: 700,
-              fontSize: 13,
-              color: t.lime,
-              bgcolor: theme.palette.mode === 'light' ? '#eef6df' : '#141a12',
-              border: `1px solid ${t.green}`,
-            };
+                width: 44,
+                height: 44,
+                borderRadius: '13px',
+                display: 'grid',
+                placeItems: 'center',
+                fontWeight: 700,
+                fontSize: 13,
+                color: t.lime,
+                bgcolor: theme.palette.mode === 'light' ? '#232e11' : '#141a12',
+                border: `1px solid ${t.green}`,
+                boxShadow: theme.palette.mode === 'light' 
+                  ? 'inset 3px 3px 12px rgba(95, 138, 18, 0.5), inset 8px 8px 24px rgba(95, 138, 18, 0.2)'
+                  : 'inset 3px 3px 12px rgba(95, 138, 18, 0.5), inset 8px 8px 24px rgba(95, 138, 18, 0.2)',
+              };
             }}
           >
             AK
@@ -241,17 +248,17 @@ const PortalShell: React.FC<IPortalShellProps> = ({
             sx={(theme) => {
               const t = getModeTokens(theme.palette.mode);
               return {
-              display: { xs: 'grid', md: 'none' },
-              placeItems: 'center',
-              width: 40,
-              height: 40,
-              borderRadius: '12px',
-              fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
-              fontSize: 13,
-              fontWeight: 900,
-              color: etpTokens.ink,
-              background: `linear-gradient(135deg, ${t.lime}, ${t.green})`,
-            };
+                display: { xs: 'grid', md: 'none' },
+                placeItems: 'center',
+                width: 40,
+                height: 40,
+                borderRadius: '12px',
+                fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
+                fontSize: 13,
+                fontWeight: 900,
+                color: etpTokens.ink,
+                background: `linear-gradient(135deg, ${t.lime}, ${t.green})`,
+              };
             }}
           >
             E&amp;P
@@ -334,15 +341,15 @@ const PortalShell: React.FC<IPortalShellProps> = ({
               sx={(theme) => {
                 const t = getModeTokens(theme.palette.mode);
                 return {
-                px: { xs: 1.625, sm: 2.25 },
-                py: 1.25,
-                borderRadius: '12px',
-                color: etpTokens.ink,
-                background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
-                boxShadow: '0 6px 20px rgba(134,188,37,.3)',
-                whiteSpace: 'nowrap',
-                '&:hover': { transform: 'translateY(-1px)', boxShadow: '0 10px 30px rgba(134,188,37,.42)' },
-              };
+                  px: { xs: 1.625, sm: 2.25 },
+                  py: 1.25,
+                  borderRadius: '12px',
+                  color: etpTokens.ink,
+                  background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
+                  boxShadow: '0 6px 20px rgba(135, 188, 37, 0.56)',
+                  whiteSpace: 'nowrap',
+                  '&:hover': { transform: 'translateY(-1px)', boxShadow: '0 10px 30px rgba(134,188,37,.42)' },
+                };
               }}
             >
               <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
@@ -369,7 +376,7 @@ const PortalShell: React.FC<IPortalShellProps> = ({
           </Box>
         </Box>
 
-        <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain' }}>
+        <Box ref={contentRef} sx={{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain' }}>
           <Box sx={{ maxWidth: 1320, mx: 'auto', px: { xs: 2.25, md: 4.25 }, pt: { xs: 2.75, md: 3.75 }, pb: 11.25 }}>
             {children}
           </Box>
@@ -379,5 +386,5 @@ const PortalShell: React.FC<IPortalShellProps> = ({
   );
 };
 
-export default PortalShell;
+export default NavigationBar;
 

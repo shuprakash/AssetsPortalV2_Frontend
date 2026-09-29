@@ -30,7 +30,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { PaletteMode, SxProps, Theme } from '@mui/material';
 import AssetCard from '../../components/Assets/AssetCard';
 import AssetPills from '../../components/Assets/AssetPills';
-import PortalShell, { PortalNavKey } from '../../components/Layout/PortalShell';
+import NavigationBar, { PortalNavKey } from '../../components/Layout/NavigationBar';
 import { IAsset, IAssetFile } from '../../models/IAsset';
 import { SharePointService } from '../../services/SharePointService';
 import { etpTokens, getModeTokens } from '../../theme/etpTheme';
@@ -115,7 +115,7 @@ const AssetDetails: React.FC<IAssetDetailsProps> = ({
 
   if (!currentAsset) {
     return (
-      <PortalShell
+      <NavigationBar
         activeNav="results"
         mode={mode}
         onSearch={onSearch}
@@ -145,14 +145,14 @@ const AssetDetails: React.FC<IAssetDetailsProps> = ({
             Back to catalogue
           </Button>
         </Paper>
-      </PortalShell>
+      </NavigationBar>
     );
   }
 
   const video = currentAsset.videos[0];
 
   return (
-    <PortalShell
+    <NavigationBar
       activeNav="results"
       mode={mode}
       onSearch={onSearch}
@@ -522,7 +522,7 @@ const AssetDetails: React.FC<IAssetDetailsProps> = ({
           </Button>
         </Box>
       </Box>
-    </PortalShell>
+    </NavigationBar>
   );
 };
 

@@ -1,30 +1,15 @@
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  CircularProgress,
-  Collapse,
-  Grid,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import CloseIcon from '@mui/icons-material/Close';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import SearchIcon from '@mui/icons-material/Search';
-import { PaletteMode } from '@mui/material';
-import AssetCard from '../../components/Assets/AssetCard';
-import FilterSidebar, { IFilterOption, IFilterState } from '../../components/Assets/FilterSidebar';
-import PortalShell, { PortalNavKey } from '../../components/Layout/PortalShell';
+import { Box, PaletteMode } from '@mui/material';
+import { IFilterOption, IFilterState } from '../../components/Assets/FilterSidebar';
+import NavigationBar, { PortalNavKey } from '../../components/Layout/NavigationBar';
 import { IAsset } from '../../models/IAsset';
 import { SharePointService } from '../../services/SharePointService';
 import { assetMatchesTerms, getAssetHaystack, getOptionCounts, getPortfolioOptions, getRelevanceScore } from '../../utils/assetHelpers';
-import { etpTokens, getModeTokens } from '../../theme/etpTheme';
+import { getModeTokens } from '../../theme/etpTheme';
+import AssetChampionCmp from './AssetChampionCmp';
+import AssetFilterComponent, { ExploreSortKey } from './AssetFilterComponent';
+import HomeComponent from './HomeComponent';
 
 export interface IDashboardProps {
   searchQuery: string;
@@ -35,7 +20,7 @@ export interface IDashboardProps {
   onToggleTheme: () => void;
 }
 
-type SortKey = 'rel' | 'az' | 'za' | 'dl' | 'rt' | 'pf';
+type SortKey = ExploreSortKey;
 
 const defaultFilters: IFilterState = {
   refineText: '',
@@ -85,13 +70,12 @@ const Dashboard: React.FC<IDashboardProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [terms, setTerms] = useState<string[]>([]);
-  const [pendingTerm, setPendingTerm] = useState<string>('');
   const [termMode, setTermMode] = useState<'any' | 'all'>('any');
   const [filters, setFilters] = useState<IFilterState>(defaultFilters);
   const [sort, setSort] = useState<SortKey>('az');
   const [visibleCount, setVisibleCount] = useState<number>(25);
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
-  const [activeNav, setActiveNav] = useState<PortalNavKey>('results');
+  const [activeNav, setActiveNav] = useState<PortalNavKey>(searchQuery.trim() ? 'results' : 'home');
 
   useEffect(() => {
     let mounted = true;
@@ -122,7 +106,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
     const cleanQuery = searchQuery.trim();
     setTerms(cleanQuery ? [cleanQuery] : []);
     setSort(cleanQuery ? 'rel' : 'az');
-    setActiveNav('results');
+    setActiveNav(cleanQuery ? 'results' : 'home');
     setVisibleCount(25);
   }, [searchQuery]);
 
@@ -139,20 +123,6 @@ const Dashboard: React.FC<IDashboardProps> = ({
   const clearSearch = useCallback(() => {
     setTerms([]);
     setSort('az');
-    setVisibleCount(25);
-  }, []);
-
-  const addTerm = useCallback((value: string = pendingTerm) => {
-    const cleanTerm = value.trim();
-    if (!cleanTerm) return;
-    setTerms((current) => current.some((term) => term.toLowerCase() === cleanTerm.toLowerCase()) ? current : [...current, cleanTerm]);
-    setPendingTerm('');
-    setSort('rel');
-    setVisibleCount(25);
-  }, [pendingTerm]);
-
-  const dropTerm = useCallback((index: number) => {
-    setTerms((current) => current.filter((_, termIndex) => termIndex !== index));
     setVisibleCount(25);
   }, []);
 
@@ -258,402 +228,81 @@ const Dashboard: React.FC<IDashboardProps> = ({
         Results for <Box component="span" sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime })}>"{terms.join('" - "')}"</Box>
       </>
     )
-    : activeNav === 'popular'
-      ? 'Most Popular'
-      : activeNav === 'agentic'
-        ? 'Agentic AI'
-        : activeNav === 'champions'
-          ? 'Asset Champions'
+    : activeNav === 'explore'
+      ? 'Explore the Library'
+      : activeNav === 'popular'
+        ? 'Most Popular'
+        : activeNav === 'agentic'
+          ? 'Agentic AI'
+          : activeNav === 'champions'
+            ? 'Asset Champions'
           : 'Search the ET&P catalogue';
 
+  const pageSubtitle = terms.length
+    ? 'Review matching assets and tune the filters to narrow the result set.'
+    : activeNav === 'agentic'
+      ? 'Autonomous agents that sense, decide and act.'
+      : activeNav === 'popular'
+        ? 'Ranked by downloads across the practice.'
+        : 'Browse every ET&P accelerator, tool and asset - App-store style discovery.';
+
+  const dashboardContent = activeNav === 'home'
+    ? (
+      <HomeComponent
+        assets={assets}
+        loading={loading}
+        onAssetSelect={onAssetSelect}
+        onNavigate={setDashboardNav}
+      />
+    )
+    : activeNav === 'champions'
+      ? (
+        <AssetChampionCmp
+          assets={assets}
+          onAssetSelect={onAssetSelect}
+        />
+      )
+      : (
+        <AssetFilterComponent
+          activeFilterCount={activeFilterCount}
+          clearFilters={clearFilters}
+          clearSearch={clearSearch}
+          error={error}
+          filteredAssets={filteredAssets}
+          filterOptions={filterOptions}
+          filters={filters}
+          filtersOpen={filtersOpen}
+          loading={loading}
+          onAssetSelect={onAssetSelect}
+          pageTitle={pageTitle}
+          patchFilters={patchFilters}
+          quickOptions={quickOptions}
+          ratingOptions={ratingOptions}
+          setFiltersOpen={setFiltersOpen}
+          setSort={setSort}
+          setVisibleCount={setVisibleCount}
+          sort={sort}
+          sortLabels={sortLabels}
+          subtitle={pageSubtitle}
+          terms={terms}
+          visibleAssets={visibleAssets}
+          visibleCount={visibleCount}
+        />
+      );
+
   return (
-    <PortalShell
+    <NavigationBar
       activeNav={activeNav}
       mode={mode}
       onSearch={onSearch}
       onNavigate={setDashboardNav}
       onToggleTheme={onToggleTheme}
     >
-      <Box sx={{ mb: 3.25 }}>
-        <Typography
-          sx={(theme) => {
-            const t = getModeTokens(theme.palette.mode);
-            return {
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 1.125,
-            color: t.lime,
-            fontSize: 12,
-            fontWeight: 800,
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            '&:before': {
-              content: '""',
-              width: 24,
-              height: 1,
-              background: `linear-gradient(90deg, ${t.green}, transparent)`,
-            },
-          };
-          }}
-        >
-          Search results
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            fontFamily: '"Space Grotesk", "Inter", sans-serif',
-            fontSize: { xs: 27, md: 34 },
-            fontWeight: 800,
-            letterSpacing: '-1px',
-            mt: 1,
-            mb: 0.5,
-          }}
-        >
-          {pageTitle}
-        </Typography>
-        <Typography sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted, fontSize: 14.5, mb: 3.25 })}>
-          Add more terms to widen the search, or narrow it down with the filters on the left.
-        </Typography>
-
-        <Box sx={{ mb: 2.75 }}>
-          <Box
-            sx={(theme) => {
-              const t = getModeTokens(theme.palette.mode);
-              return {
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.375,
-                maxWidth: 660,
-                p: '6px 6px 6px 16px',
-                borderRadius: '15px',
-                bgcolor: t.surface,
-                border: `1px solid ${t.borderSoft}`,
-                transition: '.2s',
-                '&:focus-within': { borderColor: t.green, boxShadow: '0 0 0 3px rgba(134,188,37,.12)' },
-              };
-            }}
-          >
-            <SearchIcon sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted, fontSize: 18, flexShrink: 0 })} />
-            <Box
-              component="input"
-              value={pendingTerm}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPendingTerm(event.target.value)}
-              onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                if (event.key === 'Enter') addTerm();
-              }}
-              placeholder="Add another search term..."
-              sx={(theme) => ({
-                flex: 1,
-                minWidth: 0,
-                bgcolor: 'transparent',
-                border: 0,
-                outline: 0,
-                color: getModeTokens(theme.palette.mode).text,
-                fontFamily: '"Inter", sans-serif',
-                fontSize: 14.5,
-                '&::placeholder': { color: getModeTokens(theme.palette.mode).muted2 },
-              })}
-            />
-            <Button
-              startIcon={<AddIcon />}
-              onClick={() => addTerm()}
-              sx={(theme) => {
-                const t = getModeTokens(theme.palette.mode);
-                return {
-                color: etpTokens.ink,
-                background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
-                px: 1.875,
-                py: 1.25,
-                borderRadius: '11px',
-                fontSize: 13,
-                whiteSpace: 'nowrap',
-                '&:hover': { transform: 'translateY(-1px)', background: `linear-gradient(120deg, ${t.lime}, ${t.green})` },
-              };
-              }}
-            >
-              Add term
-            </Button>
-          </Box>
-
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center', mt: 1.5 }}>
-            {terms.map((term, index) => (
-              <Chip
-                key={`${term}-${index}`}
-                icon={<SearchIcon />}
-                label={term}
-                onDelete={() => dropTerm(index)}
-                deleteIcon={<CloseIcon />}
-                sx={(theme) => {
-                  const t = getModeTokens(theme.palette.mode);
-                  return {
-                    height: 32,
-                    color: t.text,
-                    bgcolor: t.panel,
-                    border: `1px solid ${t.border}`,
-                    borderRadius: '20px',
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    '& .MuiChip-icon': { color: t.lime, fontSize: 14 },
-                    '& .MuiChip-deleteIcon': { color: t.muted, fontSize: 16, '&:hover': { color: t.spectrum[0] } },
-                  };
-                }}
-              />
-            ))}
-            {terms.length > 1 && (
-              <Box sx={(theme) => ({ display: 'flex', gap: 0.25, p: 0.375, borderRadius: '11px', bgcolor: getModeTokens(theme.palette.mode).panel, border: `1px solid ${getModeTokens(theme.palette.mode).borderSoft}` })}>
-                {(['any', 'all'] as const).map((modeValue) => (
-                  <Button
-                    key={modeValue}
-                    onClick={() => setTermMode(modeValue)}
-                    sx={(theme) => {
-                      const t = getModeTokens(theme.palette.mode);
-                      return {
-                        minWidth: 0,
-                        px: 1.375,
-                        py: 0.625,
-                        borderRadius: '8px',
-                        color: termMode === modeValue ? etpTokens.ink : 'text.secondary',
-                        background: termMode === modeValue ? `linear-gradient(120deg, ${t.lime}, ${t.green})` : 'transparent',
-                        fontSize: 11.5,
-                        fontWeight: 800,
-                      };
-                    }}
-                  >
-                    {modeValue === 'any' ? 'Any' : 'All'}
-                  </Button>
-                ))}
-              </Box>
-            )}
-            {terms.length > 0 && (
-              <Button onClick={clearSearch} sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime, textDecoration: 'underline', textUnderlineOffset: '3px', fontSize: 12 })}>
-                Clear search
-              </Button>
-            )}
-          </Box>
-        </Box>
-      </Box>
-
-      <Button
-        startIcon={<FilterListIcon />}
-        onClick={() => setFiltersOpen((open) => !open)}
-        sx={(theme) => {
-          const t = getModeTokens(theme.palette.mode);
-          return {
-            display: { xs: 'inline-flex', lg: 'none' },
-            mb: 2,
-            color: t.text,
-            bgcolor: t.panel,
-            border: `1px solid ${t.borderSoft}`,
-            borderRadius: '12px',
-            '&:hover': { bgcolor: t.panel, borderColor: t.border },
-          };
-        }}
-      >
-        Filters {activeFilterCount ? `(${activeFilterCount})` : ''}
-      </Button>
-
-      <Grid container spacing={3}>
-        <Grid item xs={12} lg={3}>
-          <Collapse in={filtersOpen} sx={{ display: { lg: 'none' } }}>
-            <Box sx={{ mb: 3 }}>
-              <FilterSidebar
-                filters={filters}
-                quickOptions={quickOptions}
-                portfolioOptions={filterOptions.portfolios}
-                assetTypeOptions={filterOptions.assetTypes}
-                availabilityOptions={filterOptions.availability}
-                geographyOptions={filterOptions.geography}
-                themeOptions={filterOptions.themes}
-                ratingOptions={ratingOptions}
-                onChange={patchFilters}
-                onClear={clearFilters}
-              />
-            </Box>
-          </Collapse>
-          <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <FilterSidebar
-              filters={filters}
-              quickOptions={quickOptions}
-              portfolioOptions={filterOptions.portfolios}
-              assetTypeOptions={filterOptions.assetTypes}
-              availabilityOptions={filterOptions.availability}
-              geographyOptions={filterOptions.geography}
-              themeOptions={filterOptions.themes}
-              ratingOptions={ratingOptions}
-              onChange={patchFilters}
-              onClear={clearFilters}
-            />
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} lg={9}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.75, flexWrap: 'wrap', mb: 1.75 }}>
-            <Typography
-              sx={{
-                fontFamily: '"Space Grotesk", "Inter", sans-serif',
-                fontSize: 20,
-                fontWeight: 800,
-                flex: 1,
-                minWidth: 220,
-              }}
-            >
-              {loading ? 'Loading catalogue...' : (
-                <>
-                  <Box component="span" sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime })}>{filteredAssets.length}</Box>
-                  {' '}asset{filteredAssets.length === 1 ? '' : 's'} {terms.length ? 'match your search' : activeFilterCount ? 'found' : 'in the catalogue'}
-                </>
-              )}
-            </Typography>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontSize: 13 }}>
-              Sort By:
-              <Select
-                value={sort}
-                onChange={(event) => setSort(event.target.value as SortKey)}
-                size="small"
-                sx={(theme) => {
-                  const t = getModeTokens(theme.palette.mode);
-                  return {
-                    color: t.lime,
-                    bgcolor: t.panel,
-                    borderRadius: '10px',
-                    fontSize: 13,
-                    fontWeight: 700,
-                    '& fieldset': { borderColor: t.borderSoft },
-                    '&:hover fieldset': { borderColor: t.border },
-                    '& .MuiSvgIcon-root': { color: t.muted },
-                  };
-                }}
-              >
-                {(terms.length ? Object.keys(sortLabels) : Object.keys(sortLabels).filter((key) => key !== 'rel')).map((key) => (
-                  <MenuItem key={key} value={key}>{sortLabels[key as SortKey]}</MenuItem>
-                ))}
-              </Select>
-            </Box>
-          </Box>
-
-          {activeFilterCount > 0 && (
-            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center', mb: 2.25 }}>
-              {filters.refineText && <ActiveChip label={`Refine: ${filters.refineText}`} onDelete={() => patchFilters({ ...filters, refineText: '' })} />}
-              {filters.quick.map((item) => <ActiveChip key={item} label={`Filter: ${quickOptions.find((q) => q.value === item)?.label || item}`} onDelete={() => patchFilters({ ...filters, quick: filters.quick.filter((value) => value !== item) })} />)}
-              {filters.portfolio !== 'all' && <ActiveChip label={`Portfolio: ${filters.portfolio}`} onDelete={() => patchFilters({ ...filters, portfolio: 'all' })} />}
-              {filters.geography.map((geo) => <ActiveChip key={geo} label={`Country: ${geo}`} onDelete={() => patchFilters({ ...filters, geography: filters.geography.filter((value) => value !== geo) })} />)}
-              {filters.themes.map((theme) => <ActiveChip key={theme} label={`Theme: ${theme}`} onDelete={() => patchFilters({ ...filters, themes: filters.themes.filter((value) => value !== theme) })} />)}
-              {filters.assetTypes.map((type) => <ActiveChip key={type} label={`Type: ${type}`} onDelete={() => patchFilters({ ...filters, assetTypes: filters.assetTypes.filter((value) => value !== type) })} />)}
-              {filters.availability.map((availability) => <ActiveChip key={availability} label={`Availability: ${availability}`} onDelete={() => patchFilters({ ...filters, availability: filters.availability.filter((value) => value !== availability) })} />)}
-              {filters.residency !== 'all' && <ActiveChip label={filters.residency === 'required' ? 'Data: Residency required' : 'Data: No restriction'} onDelete={() => patchFilters({ ...filters, residency: 'all' })} />}
-              {filters.minRating !== 'all' && <ActiveChip label={`Rating: ${filters.minRating} & up`} onDelete={() => patchFilters({ ...filters, minRating: 'all' })} />}
-              <Button onClick={clearFilters} sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime, textDecoration: 'underline', textUnderlineOffset: '3px', fontSize: 12 })}>
-                Clear all
-              </Button>
-            </Box>
-          )}
-
-          {error && (
-            <Alert severity="error" sx={{ mb: 3, borderRadius: '14px' }}>
-              {error}
-            </Alert>
-          )}
-
-          {loading ? (
-            <Box sx={{ display: 'grid', placeItems: 'center', minHeight: 360 }}>
-              <CircularProgress sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime })} />
-            </Box>
-          ) : visibleAssets.length ? (
-            <>
-              <Grid container spacing={2.5}>
-                {visibleAssets.map((asset, index) => (
-                  <Grid item xs={12} sm={6} xl={4} key={asset.id}>
-                    <AssetCard asset={asset} index={index} onSelect={onAssetSelect} />
-                  </Grid>
-                ))}
-              </Grid>
-
-              <Box sx={{ textAlign: 'center', mt: 3.75 }}>
-                {filteredAssets.length > visibleAssets.length && (
-                  <Button
-                    onClick={() => setVisibleCount((current) => Math.min(current + 25, filteredAssets.length))}
-                    sx={(theme) => {
-                      const t = getModeTokens(theme.palette.mode);
-                      return {
-                        color: t.lime,
-                        bgcolor: t.panel,
-                        border: `1px solid ${t.border}`,
-                        px: 3.75,
-                        py: 1.5,
-                        borderRadius: '24px',
-                        '&:hover': {
-                          color: etpTokens.ink,
-                          background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
-                          borderColor: 'transparent',
-                        },
-                      };
-                    }}
-                  >
-                    View More
-                  </Button>
-                )}
-                <Typography sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted2, fontSize: 12.5, mt: 1.375, letterSpacing: '.4px' })}>
-                  [ {visibleAssets.length} / {filteredAssets.length} ]
-                </Typography>
-              </Box>
-            </>
-          ) : (
-            <Box
-              sx={(theme) => {
-                const t = getModeTokens(theme.palette.mode);
-                return {
-                  textAlign: 'center',
-                  color: t.muted2,
-                  p: 7.5,
-                  borderRadius: '20px',
-                  bgcolor: t.surface,
-                  border: `1px solid ${t.borderSoft}`,
-                };
-              }}
-            >
-              <AutoAwesomeIcon sx={(theme) => ({ fontSize: 42, color: getModeTokens(theme.palette.mode).lime, mb: 1.5 })} />
-              <Typography sx={{ fontFamily: '"Space Grotesk", "Inter", sans-serif', fontSize: 20, fontWeight: 800, mb: 1 }}>
-                No assets match this search.
-              </Typography>
-              <Typography sx={{ fontSize: 14, mb: 2 }}>
-                Try removing a filter or adding a broader term.
-              </Typography>
-              <Button onClick={() => { clearFilters(); clearSearch(); }} sx={(theme) => ({ color: getModeTokens(theme.palette.mode).lime, textDecoration: 'underline', textUnderlineOffset: '3px' })}>
-                Reset all filters
-              </Button>
-            </Box>
-          )}
-        </Grid>
-      </Grid>
-    </PortalShell>
+      {dashboardContent}
+    </NavigationBar>
   );
+
 };
 
-interface IActiveChipProps {
-  label: string;
-  onDelete: () => void;
-}
-
-const ActiveChip: React.FC<IActiveChipProps> = ({ label, onDelete }) => (
-  <Chip
-    label={label}
-    onDelete={onDelete}
-    deleteIcon={<CloseIcon />}
-    sx={(theme) => {
-      const t = getModeTokens(theme.palette.mode);
-      return {
-        height: 31,
-        borderRadius: '20px',
-        color: t.text,
-        bgcolor: t.panel,
-        border: `1px solid ${t.border}`,
-        fontSize: 12,
-        fontWeight: 700,
-        '& .MuiChip-deleteIcon': { color: t.muted, fontSize: 16, '&:hover': { color: t.spectrum[0] } },
-      };
-    }}
-  />
-);
-
 export default Dashboard;
+

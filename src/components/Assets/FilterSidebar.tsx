@@ -2,16 +2,14 @@ import * as React from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Chip,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   TextField,
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import CompactMultiSelect from '../Inputs/CompactMultiSelect';
 import { etpTokens, getModeTokens } from '../../theme/etpTheme';
 
 export interface IFilterState {
@@ -51,7 +49,7 @@ const toggleValue = (values: string[], value: string): string[] => (
 
 const sectionSx = {
   px: 2,
-  py: 2,
+  py: 1.625,
   borderBottom: '1px solid',
   borderColor: 'divider',
 };
@@ -59,12 +57,22 @@ const sectionSx = {
 const labelSx = {
   display: 'flex',
   alignItems: 'center',
-  gap: 0.875,
+  gap: 0.75,
   fontSize: 11,
   letterSpacing: '1.3px',
   textTransform: 'uppercase',
   fontWeight: 800,
-  mb: 1.375,
+  mb: 1,
+};
+
+const geographyFlags: Record<string, string> = {
+  India: String.fromCodePoint(0x1f1ee, 0x1f1f3),
+  Australia: String.fromCodePoint(0x1f1e6, 0x1f1fa),
+  'Middle East': String.fromCodePoint(0x1f1e6, 0x1f1ea),
+  Japan: String.fromCodePoint(0x1f1ef, 0x1f1f5),
+  China: String.fromCodePoint(0x1f1e8, 0x1f1f3),
+  'United Kingdom': String.fromCodePoint(0x1f1ec, 0x1f1e7),
+  'United States': String.fromCodePoint(0x1f1fa, 0x1f1f8),
 };
 
 const FilterSidebar: React.FC<IFilterSidebarProps> = ({
@@ -84,71 +92,11 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
     [filters, onChange]
   );
 
-  const renderMultiOptions = (
-    key: 'assetTypes' | 'availability' | 'geography' | 'themes',
-    options: IFilterOption[],
-    maxHeight: number = 230
-  ): React.ReactNode => (
-    <Box sx={{ maxHeight, overflowY: 'auto', mx: -0.75, px: 0.5 }}>
-      {options.map((option) => {
-        const checked = filters[key].includes(option.value);
-        return (
-          <FormControlLabel
-            key={option.value}
-            control={
-              <Checkbox
-                checked={checked}
-                onChange={() => patchFilters({ [key]: toggleValue(filters[key], option.value) } as Partial<IFilterState>)}
-                size="small"
-                sx={(theme) => ({
-                  color: 'divider',
-                  p: 0.5,
-                  '&.Mui-checked': { color: getModeTokens(theme.palette.mode).lime },
-                })}
-              />
-            }
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                <Typography sx={{ flex: 1, minWidth: 0, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {option.label}
-                </Typography>
-                {typeof option.count === 'number' && (
-                  <Chip
-                    label={option.count}
-                    size="small"
-                    sx={(theme) => {
-                      const t = getModeTokens(theme.palette.mode);
-                      return {
-                        height: 20,
-                        borderRadius: '20px',
-                        bgcolor: t.panel2,
-                        color: checked ? t.lime : t.muted2,
-                        fontSize: 11,
-                        fontWeight: 700,
-                      };
-                    }}
-                  />
-                )}
-              </Box>
-            }
-            sx={(theme) => {
-              const t = getModeTokens(theme.palette.mode);
-              return {
-                display: 'flex',
-                alignItems: 'center',
-                m: 0,
-                px: 0.5,
-                py: 0.5,
-                borderRadius: '9px',
-                color: checked ? t.text : t.muted,
-                '&:hover': { bgcolor: t.panel, color: t.text },
-                '& .MuiFormControlLabel-label': { flex: 1, minWidth: 0 },
-              };
-            }}
-          />
-        );
-      })}
-    </Box>
+  const renderSectionLabel = (label: string): React.ReactNode => (
+    <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
+      {label}
+          <InfoOutlinedIcon sx={(theme) => ({ fontSize: 14, color: getModeTokens(theme.palette.mode).muted2 })} />
+    </Typography>
   );
 
   return (
@@ -158,12 +106,40 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
         return {
           position: { xs: 'static', lg: 'sticky' },
           top: 16,
-          maxHeight: { xs: 'none', lg: 'calc(100vh - 106px)' },
+          maxHeight: { xs: 'none', lg: 'calc(120vh)' }, // -106px
           overflowY: 'auto',
           bgcolor: t.surface,
           border: `1px solid ${t.borderSoft}`,
           borderRadius: '20px',
           boxShadow: `0 18px 40px ${theme.palette.mode === 'light' ? 'rgba(40,60,20,.08)' : 'rgba(0,0,0,.22)'}`,
+          '&::-webkit-scrollbar': {
+            width: '12px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: theme.palette.mode === 'dark' ? '#0a0e0a' : '#f4f7ef',
+            borderLeft: `1px solid ${t.borderSoft}`,
+            borderTopRightRadius: '19px',
+            borderBottomRightRadius: '19px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: theme.palette.mode === 'dark' ? '#dcdcdc' : '#8a9880',
+            borderRadius: '10px',
+            border: `3px solid ${theme.palette.mode === 'dark' ? '#0a0e0a' : '#f4f7ef'}`,
+          },
+          '&::-webkit-scrollbar-button:single-button': {
+            display: 'block',
+            height: '14px',
+          },
+          '&::-webkit-scrollbar-button:single-button:vertical:decrement': {
+            backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24'><path fill='${theme.palette.mode === 'dark' ? '%23dcdcdc' : '%238a9880'}' d='M5 16l7-7 7 7z'/></svg>")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center 5px',
+          },
+          '&::-webkit-scrollbar-button:single-button:vertical:increment': {
+            backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24'><path fill='${theme.palette.mode === 'dark' ? '%23dcdcdc' : '%238a9880'}' d='M5 8l7 7 7-7z'/></svg>")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center 4px',
+          },
         };
       }}
     >
@@ -225,7 +201,7 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
         <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
           Quick Filters
         </Typography>
-        <Box sx={{ display: 'flex', gap: 0.875, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
           {quickOptions.map((option) => {
             const active = filters.quick.includes(option.value);
             return (
@@ -237,13 +213,13 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
                 sx={(theme) => {
                   const t = getModeTokens(theme.palette.mode);
                   return {
-                    height: 30,
-                    borderRadius: '18px',
+                    height: 28,
+                    borderRadius: '16px',
                     color: active ? etpTokens.ink : t.muted,
                     bgcolor: active ? 'transparent' : 'transparent',
                     background: active ? `linear-gradient(120deg, ${t.lime}, ${t.green})` : 'transparent',
                     border: active ? '1px solid transparent' : `1px solid ${t.borderSoft}`,
-                    fontSize: 12.5,
+                    fontSize: 12,
                     fontWeight: 700,
                     '&:hover': {
                       color: active ? etpTokens.ink : t.text,
@@ -258,49 +234,115 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
       </Box>
 
       <Box sx={sectionSx}>
-        <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
-          Country / Geography
-        </Typography>
-        {renderMultiOptions('geography', geographyOptions, 180)}
+        {renderSectionLabel('Country / Geography')}
+        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap', mb: 1 }}>
+          {geographyOptions.slice(0, 5).map((option) => {
+            const active = filters.geography.includes(option.value);
+            const flag = geographyFlags[option.label] || geographyFlags[option.value] || '';
+            return (
+              <Chip
+                key={option.value}
+                label={`${flag ? `${flag} ` : ''}${option.label}`}
+                clickable
+                onClick={() => patchFilters({ geography: toggleValue(filters.geography, option.value) })}
+                sx={(theme) => {
+                  const t = getModeTokens(theme.palette.mode);
+                  return {
+                    height: 27,
+                    borderRadius: '15px',
+                    color: active ? t.text : t.muted,
+                    bgcolor: active ? t.panel2 : 'transparent',
+                    border: `1px solid ${active ? t.border : t.borderSoft}`,
+                    fontSize: 12.25,
+                    fontWeight: 800,
+                    '& .MuiChip-label': { px: 1 },
+                    '&:hover': {
+                      color: t.text,
+                      bgcolor: t.panel,
+                      borderColor: t.border,
+                    },
+                  };
+                }}
+              />
+            );
+          })}
+        </Box>
+        <CompactMultiSelect
+          value={filters.geography}
+          options={geographyOptions}
+          onChange={(nextValue) => patchFilters({ geography: nextValue })}
+        />
       </Box>
 
       <Box sx={sectionSx}>
-        <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
-          Theme / Solution
-        </Typography>
-        {renderMultiOptions('themes', themeOptions)}
+        {renderSectionLabel('Theme / Solution')}
+        <CompactMultiSelect
+          value={filters.themes}
+          options={themeOptions}
+          onChange={(nextValue) => patchFilters({ themes: nextValue })}
+        />
       </Box>
 
       <Box sx={sectionSx}>
         <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
           Data Residency
         </Typography>
-        <RadioGroup
-          value={filters.residency}
-          onChange={(event) => patchFilters({ residency: event.target.value as IFilterState['residency'] })}
-        >
+        <Box sx={{ mx: -0.75, px: 0.5 }}>
           {[
             { value: 'all', label: 'All assets' },
             { value: 'required', label: 'Data residency required' },
             { value: 'none', label: 'No data restriction' },
-          ].map((option) => (
-            <FormControlLabel
-              key={option.value}
-              value={option.value}
-              control={<Radio size="small" sx={(theme) => ({ color: 'divider', '&.Mui-checked': { color: getModeTokens(theme.palette.mode).lime } })} />}
-              label={<Typography sx={{ fontSize: 13 }}>{option.label}</Typography>}
-              sx={(theme) => {
-                const t = getModeTokens(theme.palette.mode);
-                return {
-                  m: 0,
-                  borderRadius: '9px',
-                  color: filters.residency === option.value ? t.text : t.muted,
-                  '&:hover': { bgcolor: t.panel },
-                };
-              }}
-            />
-          ))}
-        </RadioGroup>
+          ].map((option) => {
+            const active = filters.residency === option.value;
+            return (
+              <Box
+                key={option.value}
+                onClick={() => patchFilters({ residency: option.value as IFilterState['residency'] })}
+                sx={(theme) => {
+                  const t = getModeTokens(theme.palette.mode);
+                  return {
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    px: 1.125,
+                    py: 0.75,
+                    borderRadius: '9px',
+                    cursor: 'pointer',
+                    color: active ? t.text : t.muted,
+                    fontSize: 13,
+                    fontWeight: active ? 700 : 500,
+                    bgcolor: active ? t.panel : 'transparent',
+                    '&:hover': { bgcolor: t.panel, color: t.text },
+                    '&:before': active ? {
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: 8,
+                      bottom: 8,
+                      width: 3,
+                      borderRadius: 3,
+                      background: `linear-gradient(180deg, ${t.lime}, ${t.green})`,
+                    } : undefined,
+                  };
+                }}
+              >
+                <Box
+                  sx={(theme) => ({
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    bgcolor: active ? getModeTokens(theme.palette.mode).lime : 'text.disabled',
+                    flexShrink: 0,
+                  })}
+                />
+                <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {option.label}
+                </Box>
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
 
       <Box sx={sectionSx}>
@@ -320,13 +362,13 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
                     position: 'relative',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 1.125,
-                    px: 1.25,
-                    py: 1,
+                    gap: 1,
+                    px: 1.125,
+                    py: 0.75,
                     borderRadius: '9px',
                     cursor: 'pointer',
                     color: active ? t.text : t.muted,
-                    fontSize: 13.5,
+                    fontSize: 13,
                     fontWeight: active ? 700 : 500,
                     bgcolor: active ? t.panel : 'transparent',
                     '&:hover': { bgcolor: t.panel, color: t.text },
@@ -377,24 +419,28 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
       </Box>
 
       <Box sx={sectionSx}>
-        <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
-          Asset Type
-        </Typography>
-        {renderMultiOptions('assetTypes', assetTypeOptions)}
+        {renderSectionLabel('Asset Type')}
+        <CompactMultiSelect
+          value={filters.assetTypes}
+          options={assetTypeOptions}
+          onChange={(nextValue) => patchFilters({ assetTypes: nextValue })}
+        />
       </Box>
 
       <Box sx={sectionSx}>
-        <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
-          Availability
-        </Typography>
-        {renderMultiOptions('availability', availabilityOptions)}
+        {renderSectionLabel('Availability')}
+        <CompactMultiSelect
+          value={filters.availability}
+          options={availabilityOptions}
+          onChange={(nextValue) => patchFilters({ availability: nextValue })}
+        />
       </Box>
 
       <Box sx={sectionSx}>
         <Typography sx={(theme) => ({ ...labelSx, color: getModeTokens(theme.palette.mode).muted })}>
           Minimum Rating
         </Typography>
-        <Box sx={{ display: 'flex', gap: 0.875, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
           {ratingOptions.map((option) => {
             const active = filters.minRating === option.value;
             return (
@@ -406,12 +452,12 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
                 sx={(theme) => {
                   const t = getModeTokens(theme.palette.mode);
                   return {
-                    height: 30,
-                    borderRadius: '18px',
+                    height: 28,
+                    borderRadius: '16px',
                     color: active ? etpTokens.ink : t.muted,
                     background: active ? `linear-gradient(120deg, ${t.lime}, ${t.green})` : 'transparent',
                     border: active ? '1px solid transparent' : `1px solid ${t.borderSoft}`,
-                    fontSize: 12.5,
+                    fontSize: 12,
                     fontWeight: 700,
                   };
                 }}
@@ -421,7 +467,7 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
         </Box>
       </Box>
 
-      <Box sx={{ px: 2, py: 2 }}>
+      <Box sx={{ px: 2, py: 1.625 }}>
         <Button
           fullWidth
           startIcon={<CloseIcon />}
@@ -429,7 +475,7 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
           sx={(theme) => {
             const t = getModeTokens(theme.palette.mode);
             return {
-              py: 1.125,
+              py: 0.875,
               borderRadius: '11px',
               color: t.muted,
               bgcolor: t.panel,
@@ -450,4 +496,5 @@ const FilterSidebar: React.FC<IFilterSidebarProps> = ({
 };
 
 export default FilterSidebar;
+
 
