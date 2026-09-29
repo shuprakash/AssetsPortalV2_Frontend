@@ -1,138 +1,708 @@
 {
   "searchResults": [
     {
-      "id": 1,
-      "title": "Agentic AI Strategy Framework",
-      "path": "https://sharepoint.example.com/sites/etp/docs/agentic-ai-framework.pdf",
-      "author": "John Smith",
+      "title": "Agent X",
+      "path": "https://sharepoint.example.com/sites/etp/assets/agent-x",
+      "author": "Vipin Shetty",
       "lastModified": "Sep 15, 2026",
-      "fileType": "pdf",
+      "fileType": "zip",
       "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "Comprehensive framework for implementing agentic AI solutions across enterprise.",
-      "siteName": "ET&P Knowledge Hub",
+      "summary": "A GenAI-powered low-code/no-code platform that enables users to visually design and deploy intelligent agents.",
+      "siteName": "ET&P Asset Hub",
       "webUrl": "https://sharepoint.example.com/sites/etp"
     },
     {
-      "id": 2,
-      "title": "GenAI Use Cases - Supply Chain",
-      "path": "https://sharepoint.example.com/sites/etp/docs/genai-supply-chain.pptx",
-      "author": "Sarah Johnson",
-      "lastModified": "Sep 10, 2026",
-      "fileType": "pptx",
+      "title": "Forecast Doctor",
+      "path": "https://sharepoint.example.com/sites/etp/assets/forecast-doctor",
+      "author": "Sumit Kumar",
+      "lastModified": "Sep 12, 2026",
+      "fileType": "zip",
       "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "Presentation covering GenAI applications in supply chain management.",
-      "siteName": "ET&P Knowledge Hub",
+      "summary": "Agentic AI asset that continuously monitors and improves forecast accuracy.",
+      "siteName": "ET&P Asset Hub",
       "webUrl": "https://sharepoint.example.com/sites/etp"
     },
     {
-      "id": 3,
-      "title": "SAP S/4HANA Migration Playbook",
-      "path": "https://sharepoint.example.com/sites/etp/docs/sap-migration.docx",
-      "author": "Mike Chen",
-      "lastModified": "Sep 8, 2026",
-      "fileType": "docx",
+      "title": "Close Copilot",
+      "path": "https://sharepoint.example.com/sites/etp/assets/close-copilot",
+      "author": "Rashmi Kapoor",
+      "lastModified": "Sep 7, 2026",
+      "fileType": "zip",
       "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "Step-by-step guide for SAP S/4HANA migration projects.",
-      "siteName": "SAP CoE",
-      "webUrl": "https://sharepoint.example.com/sites/sap"
-    },
-    {
-      "id": 4,
-      "title": "Finance Transformation Assets",
-      "path": "https://sharepoint.example.com/sites/etp/finance",
-      "author": "Lisa Park",
-      "lastModified": "Sep 5, 2026",
-      "fileType": "",
-      "contentClass": "STS_Site",
-      "summary": "Collection of finance transformation assets and templates.",
-      "siteName": "Finance Hub",
-      "webUrl": "https://sharepoint.example.com/sites/finance"
-    },
-    {
-      "id": 5,
-      "title": "Cloud Migration ROI Calculator",
-      "path": "https://sharepoint.example.com/sites/etp/docs/cloud-roi.xlsx",
-      "author": "David Lee",
-      "lastModified": "Sep 1, 2026",
-      "fileType": "xlsx",
-      "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "Excel-based ROI calculator for cloud migration projects.",
-      "siteName": "Cloud CoE",
-      "webUrl": "https://sharepoint.example.com/sites/cloud"
-    },
-    {
-      "id": 6,
-      "title": "Digital Twin Implementation Guide",
-      "path": "https://sharepoint.example.com/sites/etp/docs/digital-twin-guide.pdf",
-      "author": "Emily Wang",
-      "lastModified": "Aug 28, 2026",
-      "fileType": "pdf",
-      "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "Best practices for digital twin implementation in manufacturing.",
-      "siteName": "ET&P Knowledge Hub",
+      "summary": "AI-assisted financial close that auto-reconciles and flags anomalies in real time.",
+      "siteName": "ET&P Asset Hub",
       "webUrl": "https://sharepoint.example.com/sites/etp"
-    },
-    {
-      "id": 7,
-      "title": "Cybersecurity Assessment Templates",
-      "path": "https://sharepoint.example.com/sites/etp/lists/cybersecurity",
-      "author": "Tom Wilson",
-      "lastModified": "Aug 25, 2026",
-      "fileType": "",
-      "contentClass": "STS_List",
-      "summary": "SharePoint list of cybersecurity assessment templates and checklists.",
-      "siteName": "Security Hub",
-      "webUrl": "https://sharepoint.example.com/sites/security"
-    },
-    {
-      "id": 8,
-      "title": "Customer Experience Analytics Dashboard",
-      "path": "https://sharepoint.example.com/sites/etp/docs/cx-analytics.pptx",
-      "author": "Rachel Kim",
-      "lastModified": "Aug 20, 2026",
-      "fileType": "pptx",
-      "contentClass": "STS_ListItem_DocumentLibrary",
-      "summary": "PowerBI-integrated analytics dashboard for customer experience metrics.",
-      "siteName": "CX Hub",
-      "webUrl": "https://sharepoint.example.com/sites/cx"
     }
   ],
   "assets": [
     {
       "id": 1,
-      "title": "Agentic AI Accelerator",
-      "category": "Artificial Intelligence",
+      "title": "Agent X",
+      "description": "A GenAI-powered low-code/no-code platform that enables users to visually design and deploy intelligent agents across enterprise workflows.",
+      "category": "SAP",
+      "portfolioKey": "SAP",
+      "portfolioName": "SAP",
+      "theme": "Process Automation",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
       "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.8,
+      "downloads": 8,
+      "views": 52,
+      "version": "v2.4",
       "createdDate": "2026-06-15",
-      "modifiedDate": "2026-09-10",
-      "createdBy": "John Smith"
+      "modifiedDate": "2026-09-15",
+      "createdBy": "Vipin Shetty",
+      "owner": "Vipin Shetty",
+      "geography": ["India", "Australia", "Global"],
+      "tags": ["agentic", "SAP", "automation", "low-code"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": true,
+        "location": "India"
+      },
+      "capabilities": [
+        "Visual agent builder for workflow orchestration",
+        "Role-based governance for agent publishing",
+        "Reusable connectors for SAP and enterprise APIs",
+        "Prompt library and audit trail for delivery teams",
+        "Exportable implementation package"
+      ],
+      "impact": [
+        { "value": "60%", "label": "Less manual workflow effort" },
+        { "value": "3x", "label": "Faster prototype-to-deploy cycle" },
+        { "value": "99%", "label": "Validation accuracy on configured checks" }
+      ],
+      "files": [
+        { "id": "agent-x-src", "name": "Agent X source package.zip", "type": "Source package", "size": "24.6 MB", "iconType": "zip" },
+        { "id": "agent-x-doc", "name": "Agent X documentation.pdf", "type": "Documentation", "size": "3.1 MB", "iconType": "file" },
+        { "id": "agent-x-guide", "name": "Deployment guide.pdf", "type": "Guide", "size": "1.8 MB", "iconType": "file" },
+        { "id": "agent-x-video", "name": "Product walkthrough.mp4", "type": "Video", "size": "58 MB", "iconType": "video" }
+      ],
+      "videos": [
+        {
+          "id": "agent-x-demo",
+          "title": "Agent X - end-to-end walkthrough",
+          "duration": "4:12",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Agentic AI orchestration - Python - Cloud Platform - REST integrations",
+      "targetUsers": "Consultants, delivery leads and functional SMEs",
+      "relatedAssetIds": [2, 4, 9]
     },
     {
       "id": 2,
-      "title": "SAP Migration Toolkit",
+      "title": "Business Dashboard Builder",
+      "description": "Uses GenAI to convert natural language into real-time dashboards without writing code.",
       "category": "SAP",
-      "status": "In Review",
-      "createdDate": "2026-05-20",
-      "modifiedDate": "2026-09-08",
-      "createdBy": "Mike Chen"
+      "portfolioKey": "SAP",
+      "portfolioName": "SAP",
+      "theme": "Reporting & Analytics",
+      "assetType": "GenAI",
+      "badge": "genai",
+      "status": "Published",
+      "availability": "Beta",
+      "rating": 4.6,
+      "downloads": 5,
+      "views": 72,
+      "version": "v1.8",
+      "createdDate": "2026-04-08",
+      "modifiedDate": "2026-09-09",
+      "createdBy": "Sandeep Poojary",
+      "owner": "Sandeep Poojary",
+      "geography": ["Australia", "United Kingdom"],
+      "tags": ["GenAI", "dashboard", "analytics", "SAP"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Natural language dashboard generation",
+        "Reusable dashboard templates",
+        "Live KPI connections",
+        "Export to deck and PDF"
+      ],
+      "impact": [
+        { "value": "45%", "label": "Less dashboard build effort" },
+        { "value": "2x", "label": "Faster executive reporting" },
+        { "value": "30+", "label": "Reusable KPI templates" }
+      ],
+      "files": [
+        { "id": "bdb-src", "name": "Dashboard Builder package.zip", "type": "Source package", "size": "19.8 MB", "iconType": "zip" },
+        { "id": "bdb-doc", "name": "Configuration handbook.pdf", "type": "Documentation", "size": "2.4 MB", "iconType": "file" },
+        { "id": "bdb-deck", "name": "Client demo deck.pptx", "type": "Deck", "size": "7.9 MB", "iconType": "deck" }
+      ],
+      "videos": [
+        {
+          "id": "bdb-demo",
+          "title": "Dashboard Builder preview",
+          "duration": "3:34",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "GenAI / LLM APIs - React - Cloud Platform - Analytics connectors",
+      "targetUsers": "Analytics consultants, portfolio leads and delivery managers",
+      "relatedAssetIds": [1, 4, 6]
     },
     {
       "id": 3,
-      "title": "Supply Chain Optimizer",
-      "category": "Supply Chain",
+      "title": "Forecast Doctor",
+      "description": "Agentic AI autonomously monitors and improves forecast accuracy by iteratively evaluating models and recommending remediation.",
+      "category": "Supply Chain & Ops",
+      "portfolioKey": "SCNO",
+      "portfolioName": "Supply Chain & Ops",
+      "theme": "Reporting & Analytics",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
       "status": "Published",
-      "createdDate": "2026-04-10",
-      "modifiedDate": "2026-08-30",
-      "createdBy": "Sarah Johnson"
+      "availability": "Ready to Deploy",
+      "rating": 4.9,
+      "downloads": 9,
+      "views": 108,
+      "version": "v2.1",
+      "createdDate": "2026-05-10",
+      "modifiedDate": "2026-09-12",
+      "createdBy": "Sumit Kumar",
+      "owner": "Sumit Kumar",
+      "geography": ["United Kingdom", "United States", "Global"],
+      "tags": ["forecasting", "supply chain", "agentic", "analytics"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Model drift detection",
+        "Forecast exception triage",
+        "Scenario recommendations",
+        "Planner-ready intervention logs"
+      ],
+      "impact": [
+        { "value": "35%", "label": "Improvement in exception handling" },
+        { "value": "20%", "label": "Reduction in planning rework" },
+        { "value": "4h", "label": "Weekly analyst time saved" }
+      ],
+      "files": [
+        { "id": "fd-src", "name": "Forecast Doctor package.zip", "type": "Source package", "size": "31.2 MB", "iconType": "zip" },
+        { "id": "fd-doc", "name": "Planner guide.pdf", "type": "Documentation", "size": "4.2 MB", "iconType": "file" },
+        { "id": "fd-sheet", "name": "Sample forecast workbook.xlsx", "type": "Workbook", "size": "2.7 MB", "iconType": "sheet" }
+      ],
+      "videos": [
+        {
+          "id": "fd-demo",
+          "title": "Forecast Doctor model-monitoring preview",
+          "duration": "4:02",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Agentic AI orchestration - Python - Forecasting models - REST integrations",
+      "targetUsers": "Supply chain planners, forecasting leads and delivery teams",
+      "relatedAssetIds": [5, 8, 10]
     },
     {
       "id": 4,
-      "title": "Finance Dashboard Template",
+      "title": "Concept 2 Case",
+      "description": "A GenAI ideation asset built on SAP that helps enterprises generate high-impact business ideas and turn them into cases.",
+      "category": "SAP",
+      "portfolioKey": "SAP",
+      "portfolioName": "SAP",
+      "theme": "Customer Experience",
+      "assetType": "GenAI",
+      "badge": "genai",
+      "status": "Published",
+      "availability": "Pilot",
+      "rating": 4.4,
+      "downloads": 4,
+      "views": 91,
+      "version": "v1.5",
+      "createdDate": "2026-02-14",
+      "modifiedDate": "2026-08-29",
+      "createdBy": "Lakshminivashini Jaganathan",
+      "owner": "Lakshminivashini Jaganathan",
+      "geography": ["India", "Japan"],
+      "tags": ["GenAI", "ideation", "SAP", "business case"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": true,
+        "location": "Japan"
+      },
+      "capabilities": [
+        "Idea prompts by industry",
+        "Value case generation",
+        "Persona and journey mapping",
+        "Review workflow for portfolio leads"
+      ],
+      "impact": [
+        { "value": "2x", "label": "Faster proposal framing" },
+        { "value": "40%", "label": "More reusable idea patterns" },
+        { "value": "15", "label": "Industry playbooks included" }
+      ],
+      "files": [
+        { "id": "c2c-src", "name": "Concept 2 Case package.zip", "type": "Source package", "size": "18.3 MB", "iconType": "zip" },
+        { "id": "c2c-doc", "name": "Facilitator guide.pdf", "type": "Documentation", "size": "2.2 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "c2c-demo",
+          "title": "Concept 2 Case walkthrough",
+          "duration": "3:48",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "GenAI / LLM APIs - SAP BTP - REST integrations",
+      "targetUsers": "Innovation teams, pursuit teams and functional SMEs",
+      "relatedAssetIds": [1, 2, 9]
+    },
+    {
+      "id": 5,
+      "title": "Carbon Net Optimizer",
+      "description": "Supply chain accelerator that models cost, service and carbon trade-offs across a complex network.",
+      "category": "Supply Chain & Ops",
+      "portfolioKey": "SCNO",
+      "portfolioName": "Supply Chain & Ops",
+      "theme": "Sustainability",
+      "assetType": "Accelerator",
+      "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.5,
+      "downloads": 6,
+      "views": 84,
+      "version": "v2.0",
+      "createdDate": "2026-03-22",
+      "modifiedDate": "2026-08-26",
+      "createdBy": "Sumit Kumar",
+      "owner": "Sumit Kumar",
+      "geography": ["United States", "United Kingdom", "Global"],
+      "tags": ["carbon", "network", "optimization", "sustainability"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Network optimization scenarios",
+        "Carbon and cost trade-off reporting",
+        "Lane-level constraint modelling",
+        "Executive-ready output pack"
+      ],
+      "impact": [
+        { "value": "18%", "label": "Potential logistics cost reduction" },
+        { "value": "22%", "label": "Carbon reduction scenario" },
+        { "value": "6", "label": "Scenario templates" }
+      ],
+      "files": [
+        { "id": "cno-src", "name": "Carbon Net Optimizer.zip", "type": "Source package", "size": "27.1 MB", "iconType": "zip" },
+        { "id": "cno-doc", "name": "Optimization guide.pdf", "type": "Documentation", "size": "3.7 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "cno-demo",
+          "title": "Carbon Net Optimizer preview",
+          "duration": "4:45",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Python - Optimizer engine - Cloud Platform - Data connectors",
+      "targetUsers": "Supply chain strategists and network design teams",
+      "relatedAssetIds": [3, 8, 10]
+    },
+    {
+      "id": 6,
+      "title": "Close Copilot",
+      "description": "AI-assisted financial close asset that auto-reconciles trial balances, flags anomalies and prepares board-ready commentary.",
       "category": "Finance",
-      "status": "Draft",
+      "portfolioKey": "Finance",
+      "portfolioName": "Finance",
+      "theme": "Compliance & Risk",
+      "assetType": "GenAI",
+      "badge": "genai",
+      "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.7,
+      "downloads": 7,
+      "views": 94,
+      "version": "v2.2",
+      "createdDate": "2026-04-18",
+      "modifiedDate": "2026-09-07",
+      "createdBy": "Rashmi Kapoor",
+      "owner": "Rashmi Kapoor",
+      "geography": ["Japan", "India", "Global"],
+      "tags": ["finance", "close", "GenAI", "controls"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": true,
+        "location": "Japan"
+      },
+      "capabilities": [
+        "Auto reconciliation rules",
+        "Anomaly commentary drafting",
+        "Close status dashboard",
+        "Evidence and controls export"
+      ],
+      "impact": [
+        { "value": "50%", "label": "Fewer manual reconciliation steps" },
+        { "value": "2d", "label": "Potential close acceleration" },
+        { "value": "100%", "label": "Control evidence traceability" }
+      ],
+      "files": [
+        { "id": "cc-src", "name": "Close Copilot package.zip", "type": "Source package", "size": "22.8 MB", "iconType": "zip" },
+        { "id": "cc-doc", "name": "Close Copilot guide.pdf", "type": "Documentation", "size": "3.8 MB", "iconType": "file" },
+        { "id": "cc-deck", "name": "Controller demo deck.pptx", "type": "Deck", "size": "9.3 MB", "iconType": "deck" }
+      ],
+      "videos": [
+        {
+          "id": "cc-demo",
+          "title": "Close Copilot walkthrough",
+          "duration": "5:10",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "GenAI / LLM APIs - Finance data connectors - Cloud Platform",
+      "targetUsers": "Finance transformation teams, controllers and delivery leads",
+      "relatedAssetIds": [2, 7, 11]
+    },
+    {
+      "id": 7,
+      "title": "Control Sentinel",
+      "description": "Agentic monitoring of financial controls with autonomous exception handling and escalation workflows.",
+      "category": "Finance",
+      "portfolioKey": "Finance",
+      "portfolioName": "Finance",
+      "theme": "Compliance & Risk",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
+      "status": "Published",
+      "availability": "Beta",
+      "rating": 4.3,
+      "downloads": 3,
+      "views": 63,
+      "version": "v1.6",
+      "createdDate": "2026-05-02",
+      "modifiedDate": "2026-08-22",
+      "createdBy": "Pallav Chaturvedi",
+      "owner": "Pallav Chaturvedi",
+      "geography": ["Japan", "United States"],
+      "tags": ["controls", "risk", "agentic", "finance"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Continuous control monitoring",
+        "Exception prioritization",
+        "Workflow escalation",
+        "Audit evidence trail"
+      ],
+      "impact": [
+        { "value": "70%", "label": "Faster exception triage" },
+        { "value": "24x7", "label": "Continuous control coverage" },
+        { "value": "12", "label": "Control libraries included" }
+      ],
+      "files": [
+        { "id": "cs-src", "name": "Control Sentinel package.zip", "type": "Source package", "size": "20.4 MB", "iconType": "zip" },
+        { "id": "cs-doc", "name": "Control setup guide.pdf", "type": "Documentation", "size": "2.9 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "cs-demo",
+          "title": "Control Sentinel monitoring preview",
+          "duration": "3:55",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Agentic AI orchestration - Workflow engine - Finance controls API",
+      "targetUsers": "Finance risk, audit and transformation teams",
+      "relatedAssetIds": [6, 11]
+    },
+    {
+      "id": 8,
+      "title": "Supply Fortress",
+      "description": "GenAI-powered supply chain resilience asset that senses disruption signals and forecasts mitigation actions.",
+      "category": "Supply Chain & Ops",
+      "portfolioKey": "SCNO",
+      "portfolioName": "Supply Chain & Ops",
+      "theme": "Customer Experience",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
+      "status": "Published",
+      "availability": "Pilot",
+      "rating": 4.2,
+      "downloads": 2,
+      "views": 75,
+      "version": "v1.4",
+      "createdDate": "2026-06-01",
+      "modifiedDate": "2026-08-18",
+      "createdBy": "Sumit Kumar",
+      "owner": "Sumit Kumar",
+      "geography": ["United Kingdom", "China", "Global"],
+      "tags": ["resilience", "supply chain", "GenAI", "risk"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1601598851547-4302969d0614?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1601598851547-4302969d0614?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": true,
+        "location": "United Kingdom"
+      },
+      "capabilities": [
+        "Disruption signal ingestion",
+        "Risk scoring and alerting",
+        "Mitigation recommendation workflows",
+        "Scenario history and audit trail"
+      ],
+      "impact": [
+        { "value": "42%", "label": "Faster disruption response" },
+        { "value": "3x", "label": "More scenarios evaluated" },
+        { "value": "10", "label": "Risk indicators bundled" }
+      ],
+      "files": [
+        { "id": "sf-src", "name": "Supply Fortress package.zip", "type": "Source package", "size": "25.5 MB", "iconType": "zip" },
+        { "id": "sf-doc", "name": "Resilience playbook.pdf", "type": "Documentation", "size": "3.5 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "sf-demo",
+          "title": "Supply Fortress alerting preview",
+          "duration": "4:21",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1601598851547-4302969d0614?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Agentic AI orchestration - Event streams - Supply chain data APIs",
+      "targetUsers": "Supply chain risk teams and delivery leads",
+      "relatedAssetIds": [3, 5, 10]
+    },
+    {
+      "id": 9,
+      "title": "Computer Use",
+      "description": "A vision-based Agentic AI platform that automates tasks by visually interacting with screens like a human.",
+      "category": "SAP",
+      "portfolioKey": "SAP",
+      "portfolioName": "SAP",
+      "theme": "Process Automation",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
+      "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.6,
+      "downloads": 5,
+      "views": 89,
+      "version": "v1.9",
+      "createdDate": "2026-01-20",
+      "modifiedDate": "2026-08-16",
+      "createdBy": "Vipin Shetty",
+      "owner": "Vipin Shetty",
+      "geography": ["India", "Australia"],
+      "tags": ["computer use", "vision", "agentic", "automation"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Vision-based screen interpretation",
+        "Task execution guardrails",
+        "Replayable run history",
+        "Human approval checkpoints"
+      ],
+      "impact": [
+        { "value": "55%", "label": "Less repetitive task effort" },
+        { "value": "4x", "label": "Faster test execution" },
+        { "value": "80%", "label": "Reusable action scripts" }
+      ],
+      "files": [
+        { "id": "cu-src", "name": "Computer Use package.zip", "type": "Source package", "size": "30.7 MB", "iconType": "zip" },
+        { "id": "cu-doc", "name": "Automation setup guide.pdf", "type": "Documentation", "size": "3.0 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "cu-demo",
+          "title": "Computer Use task automation demo",
+          "duration": "4:38",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Agentic AI orchestration - Computer vision - Workflow engine",
+      "targetUsers": "Automation teams, QA leads and transformation squads",
+      "relatedAssetIds": [1, 4, 2]
+    },
+    {
+      "id": 10,
+      "title": "Material Classification",
+      "description": "GenAI automation that transforms indirect spend management by extracting structured material data.",
+      "category": "Supply Chain & Ops",
+      "portfolioKey": "SCNO",
+      "portfolioName": "Supply Chain & Ops",
+      "theme": "Data Management",
+      "assetType": "GenAI",
+      "badge": "genai",
+      "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.1,
+      "downloads": 3,
+      "views": 67,
+      "version": "v1.7",
+      "createdDate": "2026-03-09",
+      "modifiedDate": "2026-08-12",
+      "createdBy": "Sumit Kumar",
+      "owner": "Sumit Kumar",
+      "geography": ["United Kingdom", "United States"],
+      "tags": ["material", "classification", "GenAI", "data"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Material text extraction",
+        "Classification rules and review",
+        "Data quality scoring",
+        "Batch export for ERP upload"
+      ],
+      "impact": [
+        { "value": "65%", "label": "Less classification effort" },
+        { "value": "90%", "label": "Standardized material taxonomy" },
+        { "value": "12k", "label": "Records handled per batch" }
+      ],
+      "files": [
+        { "id": "mc-src", "name": "Material Classification.zip", "type": "Source package", "size": "16.4 MB", "iconType": "zip" },
+        { "id": "mc-doc", "name": "Data mapping guide.pdf", "type": "Documentation", "size": "1.9 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "mc-demo",
+          "title": "Material Classification data workflow",
+          "duration": "3:27",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "GenAI / LLM APIs - Data pipeline - ERP export",
+      "targetUsers": "Procurement, master data and supply chain teams",
+      "relatedAssetIds": [3, 5, 8]
+    },
+    {
+      "id": 11,
+      "title": "Oracle D-Assure",
+      "description": "Oracle Cloud ERP data validator for seamless migration and post-load quality assurance.",
+      "category": "Oracle",
+      "portfolioKey": "Oracle",
+      "portfolioName": "Oracle",
+      "theme": "Migration",
+      "assetType": "Tool / Utility",
+      "status": "Published",
+      "availability": "Ready to Deploy",
+      "rating": 4.5,
+      "downloads": 4,
+      "views": 58,
+      "version": "v2.0",
+      "createdDate": "2026-02-25",
+      "modifiedDate": "2026-08-10",
+      "createdBy": "Kumar Saurav",
+      "owner": "Kumar Saurav",
+      "geography": ["Middle East", "India"],
+      "tags": ["Oracle", "migration", "validation", "data"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": true,
+        "location": "Middle East"
+      },
+      "capabilities": [
+        "Post-load data validation",
+        "Oracle Cloud ERP checks",
+        "Exception dashboards",
+        "Remediation export files"
+      ],
+      "impact": [
+        { "value": "99%", "label": "Validation coverage on mapped entities" },
+        { "value": "30%", "label": "Less migration rework" },
+        { "value": "20+", "label": "Pre-built validation checks" }
+      ],
+      "files": [
+        { "id": "oda-src", "name": "Oracle D-Assure package.zip", "type": "Source package", "size": "21.9 MB", "iconType": "zip" },
+        { "id": "oda-doc", "name": "Validation runbook.pdf", "type": "Documentation", "size": "2.8 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "oda-demo",
+          "title": "Oracle D-Assure migration validation",
+          "duration": "4:08",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Oracle Cloud ERP - Data validation engine - Reporting API",
+      "targetUsers": "Oracle migration teams and data leads",
+      "relatedAssetIds": [6, 7]
+    },
+    {
+      "id": 12,
+      "title": "Vision Frontier",
+      "description": "Multimodal Agentic AI research accelerator for next-generation use cases involving image and document understanding.",
+      "category": "Emerging Tech",
+      "portfolioKey": "Emerging",
+      "portfolioName": "Emerging Tech",
+      "theme": "Customer Experience",
+      "assetType": "Agentic AI",
+      "badge": "agentic",
+      "status": "In Review",
+      "availability": "Pilot",
+      "rating": 4.4,
+      "downloads": 2,
+      "views": 61,
+      "version": "v0.9",
       "createdDate": "2026-07-01",
-      "modifiedDate": "2026-09-01",
-      "createdBy": "Lisa Park"
+      "modifiedDate": "2026-08-08",
+      "createdBy": "Lakshminivashini Jaganathan",
+      "owner": "Lakshminivashini Jaganathan",
+      "geography": ["Global"],
+      "tags": ["multimodal", "agentic", "vision", "emerging"],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=640&q=72",
+      "heroImageUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1400&q=72",
+      "dataResidency": {
+        "required": false
+      },
+      "capabilities": [
+        "Image and document understanding",
+        "Multimodal prompt patterns",
+        "Prototype workflow canvas",
+        "Guardrail templates"
+      ],
+      "impact": [
+        { "value": "3x", "label": "Faster prototype discovery" },
+        { "value": "8", "label": "Reusable demo journeys" },
+        { "value": "12", "label": "Reference use cases" }
+      ],
+      "files": [
+        { "id": "vf-src", "name": "Vision Frontier sandbox.zip", "type": "Source package", "size": "33.4 MB", "iconType": "zip" },
+        { "id": "vf-doc", "name": "Experiment guide.pdf", "type": "Documentation", "size": "4.5 MB", "iconType": "file" }
+      ],
+      "videos": [
+        {
+          "id": "vf-demo",
+          "title": "Vision Frontier prototype preview",
+          "duration": "4:17",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "posterUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1200&q=72"
+        }
+      ],
+      "techStack": "Multimodal AI APIs - Python - Cloud Platform - REST integrations",
+      "targetUsers": "Emerging technology teams, innovation pods and AI leads",
+      "relatedAssetIds": [1, 4, 9]
     }
   ]
 }

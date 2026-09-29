@@ -1,303 +1,313 @@
 import * as React from 'react';
-import { useState, useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Box,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
+  Button,
   Chip,
   Fade,
+  IconButton,
+  InputAdornment,
   Paper,
+  TextField,
+  Typography,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import SearchIcon from '@mui/icons-material/Search';
+import { etpTokens, getModeTokens } from '../../theme/etpTheme';
+import SearchPageBackground from '../../components/Backgrounds/SearchPageBackground';
 
-/**
- * Search landing page rebuilt with MUI.
- * Replaces the SCSS-based SearchPage from the original SPFx project.
- *
- * ┌──────────────────────────────────────────────────────────────────┐
- * │ MIGRATION NOTE:                                                  │
- * │ When copying back to SPFx, you can either:                       │
- * │   (a) Use this MUI version as-is (recommended), OR               │
- * │   (b) Restore the original SCSS-based SearchPage.tsx +           │
- * │       SearchPage.module.scss files from the SPFx project.        │
- * └──────────────────────────────────────────────────────────────────┘
- */
 export interface ISearchPageProps {
   onSearch: (query: string) => void;
 }
 
+const quickSearches = ['Costing', 'Migration', 'Agentic AI', 'India', 'SAP', 'Data residency', 'Forecasting'];
+
+const suggestionGroups = [
+  {
+    label: 'Assets',
+    items: ['Agent X', 'Forecast Doctor', 'Close Copilot', 'Vision Frontier'],
+  },
+  {
+    label: 'Themes / Solutions',
+    items: ['Process Automation', 'Reporting & Analytics', 'Compliance & Risk', 'Data Management'],
+  },
+  {
+    label: 'Countries',
+    items: ['India', 'Australia', 'United Kingdom', 'United States'],
+  },
+];
+
 const SearchPage: React.FC<ISearchPageProps> = ({ onSearch }) => {
   const [query, setQuery] = useState<string>('');
+  const trimmedQuery = query.trim();
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter' && query.trim()) {
-        onSearch(query.trim());
-      }
+  const suggestions = useMemo(() => {
+    if (!trimmedQuery) return [];
+    const lowerQuery = trimmedQuery.toLowerCase();
+    return suggestionGroups
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((item) => item.toLowerCase().includes(lowerQuery)).slice(0, 3),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [trimmedQuery]);
+
+  const runSearch = useCallback(
+    (value: string = query) => {
+      onSearch(value.trim());
     },
-    [query, onSearch]
+    [onSearch, query]
   );
 
-  const handleSearchClick = useCallback(() => {
-    if (query.trim()) {
-      onSearch(query.trim());
-    }
-  }, [query, onSearch]);
-
-  const quickLinks = ['Agentic AI', 'GenAI', 'SAP', 'Supply Chain', 'Finance'];
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        runSearch();
+      }
+    },
+    [runSearch]
+  );
 
   return (
-    <Fade in timeout={800}>
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          minHeight: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 4,
-          px: 3,
-          py: 6,
-          textAlign: 'center',
-          background:
-            'radial-gradient(60% 45% at 50% 108%, rgba(134,188,37,.34), transparent 70%), ' +
-            'linear-gradient(180deg, #04060a 0%, #060b06 42%, #0a1608 74%, #0f2510 100%)',
-          color: '#F4F7F4',
-          borderRadius: 3,
-          overflow: 'hidden',
-          fontFamily: '"Inter", sans-serif',
-        }}
-      >
-        {/* Floating orbs (decorative) */}
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}
-        >
-          {[1, 2, 3].map((i) => (
-            <Box
-              key={i}
-              sx={{
-                position: 'absolute',
-                borderRadius: '50%',
-                filter: 'blur(70px)',
-                opacity: 0.32,
-                animation: 'floaty 9s ease-in-out infinite',
-                ...(i === 1 && {
-                  width: 420,
-                  height: 420,
-                  left: '8%',
-                  top: '12%',
-                  background: 'radial-gradient(circle, rgba(134,188,37,.5), transparent 65%)',
-                }),
-                ...(i === 2 && {
-                  width: 340,
-                  height: 340,
-                  right: '10%',
-                  top: '22%',
-                  background: 'radial-gradient(circle, rgba(163,230,53,.3), transparent 65%)',
-                  animationDelay: '-3s',
-                }),
-                ...(i === 3 && {
-                  width: 300,
-                  height: 300,
-                  left: '44%',
-                  bottom: '6%',
-                  background: 'radial-gradient(circle, rgba(18,163,160,.22), transparent 65%)',
-                  animationDelay: '-6s',
-                }),
-                '@keyframes floaty': {
-                  '0%, 100%': { transform: 'translateY(0)' },
-                  '50%': { transform: 'translateY(-10px)' },
-                },
-              }}
-            />
-          ))}
-        </Box>
-
-        {/* Content */}
-        <Box sx={{ position: 'relative', zIndex: 2, maxWidth: 700, width: '100%' }}>
-          {/* Logo */}
-          <Box sx={{ mb: 2 }}>
-            <Typography
-              sx={{
-                fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
-                fontWeight: 900,
-                fontSize: { xs: 48, md: 76 },
-                letterSpacing: 2,
-                color: '#fff',
-                lineHeight: 1,
-              }}
-            >
-              ET<span style={{ color: '#86BC25' }}>&amp;</span>P
-            </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                justifyContent: 'center',
-                mt: 1.5,
-              }}
-            >
-              <Box
-                sx={{
-                  flex: 1,
-                  height: 3,
-                  borderRadius: 2,
-                  background: 'linear-gradient(90deg, transparent, #86BC25)',
-                }}
-              />
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: 14,
-                  letterSpacing: 11,
-                  color: '#fff',
-                }}
-              >
-                ASSET HUB
-              </Typography>
-              <Box
-                sx={{
-                  flex: 1,
-                  height: 3,
-                  borderRadius: 2,
-                  background: 'linear-gradient(90deg, #86BC25, transparent)',
-                }}
-              />
-            </Box>
-          </Box>
-
-          {/* Tagline */}
-          <Typography
-            variant="body2"
-            sx={{ color: '#8A968C', fontSize: 14.5, letterSpacing: 0.3, mb: 3 }}
-          >
-            Your single gateway to ET&amp;P assets
-          </Typography>
-
-          {/* Search Field */}
-          <Paper
-            elevation={0}
+    <Fade in timeout={500}>
+      <SearchPageBackground>
+        <Box sx={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3.25, width: '100%', maxWidth: 700 }}>
+          <Box
             sx={{
-              mx: 'auto',
-              maxWidth: 600,
-              borderRadius: '18px',
-              bgcolor: 'rgba(8,14,9,.74)',
-              border: '1px solid rgba(134,188,37,.18)',
-              backdropFilter: 'blur(14px)',
-              boxShadow: '0 20px 60px rgba(0,0,0,.5)',
-              transition: '.25s',
-              '&:focus-within': {
-                borderColor: '#86BC25',
-                boxShadow: '0 20px 60px rgba(0,0,0,.5), 0 0 0 4px rgba(134,188,37,.16)',
+              display: 'inline-flex',
+              flexDirection: 'column',
+              gap: 1.75,
+              lineHeight: 1,
+              userSelect: 'none',
+              filter: 'drop-shadow(0 0 36px rgba(134,188,37,.28))',
+              animation: 'fadeUp .8s .06s both',
+              '@keyframes fadeUp': {
+                from: { opacity: 0, transform: 'translateY(16px)' },
+                to: { opacity: 1, transform: 'none' },
               },
             }}
           >
-            <TextField
-              fullWidth
-              placeholder="Search assets, themes, countries or champions..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              autoComplete="off"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '18px',
-                  color: '#fff',
-                  fontSize: 16.5,
-                  fontFamily: '"Inter", sans-serif',
-                  py: 0.5,
-                  '& fieldset': { border: 'none' },
-                },
-                '& .MuiInputBase-input::placeholder': {
-                  color: '#5f6b60',
-                  opacity: 1,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon sx={{ color: '#8A968C' }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleSearchClick}
-                      sx={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: '13px',
-                        color: '#0A1508',
-                        background: 'linear-gradient(120deg, #A3E635, #86BC25)',
-                        boxShadow: '0 6px 18px rgba(134,188,37,.4)',
-                        '&:hover': { transform: 'scale(1.06)' },
-                      }}
-                    >
-                      <ArrowForwardIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Paper>
+            <Typography
+              sx={(theme) => ({
+                fontFamily: '"Archivo Black", "Space Grotesk", sans-serif',
+                fontWeight: 900,
+                fontSize: { xs: 46, sm: 64, md: 76 },
+                letterSpacing: '2px',
+                color: theme.palette.mode === 'light' ? '#16220d' : '#fff',
+                lineHeight: 1,
+              })}
+            >
+              ET<Box component="span" sx={(theme) => ({ color: getModeTokens(theme.palette.mode).green })}>&amp;</Box>P
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.25, sm: 2 }, width: '100%', pl: 0.75 }}>
+              <Box sx={(theme) => ({ flex: 1, height: 3, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${getModeTokens(theme.palette.mode).green})` })} />
+              <Typography
+                sx={(theme) => ({
+                  fontWeight: 800,
+                  fontSize: { xs: 10, sm: 14 },
+                  letterSpacing: { xs: '6px', sm: '11px' },
+                  color: theme.palette.mode === 'light' ? '#16220d' : '#fff',
+                  whiteSpace: 'nowrap',
+                })}
+              >
+                ASSET HUB
+              </Typography>
+              <Box sx={(theme) => ({ flex: 1, height: 3, borderRadius: 2, background: `linear-gradient(90deg, ${getModeTokens(theme.palette.mode).green}, transparent)` })} />
+            </Box>
+          </Box>
 
-          {/* Quick Links */}
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'center', mt: 3 }}>
-            {quickLinks.map((link) => (
+          <Typography sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted, fontSize: 14.5, letterSpacing: '.3px' })}>
+            Your single gateway to ET&amp;P assets
+          </Typography>
+
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            <Paper
+              elevation={0}
+              sx={(theme) => {
+                const t = getModeTokens(theme.palette.mode);
+                return {
+                  position: 'relative',
+                  borderRadius: '18px',
+                  bgcolor: theme.palette.mode === 'light' ? 'rgba(255,255,255,.86)' : 'rgba(8,14,9,.74)',
+                  border: `1px solid ${t.border}`,
+                  backdropFilter: 'blur(14px)',
+                  boxShadow: theme.palette.mode === 'light' ? '0 20px 60px rgba(20,45,10,.13)' : '0 20px 60px rgba(0,0,0,.5)',
+                  transition: '.25s',
+                  '&:focus-within': {
+                    borderColor: t.green,
+                    boxShadow: theme.palette.mode === 'light'
+                      ? '0 20px 60px rgba(20,45,10,.13), 0 0 0 4px rgba(134,188,37,.16)'
+                      : '0 20px 60px rgba(0,0,0,.5), 0 0 0 4px rgba(134,188,37,.16)',
+                  },
+                };
+              }}
+            >
+              <TextField
+                fullWidth
+                placeholder="Search assets, themes, countries or champions..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={handleKeyDown}
+                autoComplete="off"
+                sx={(theme) => {
+                  const t = getModeTokens(theme.palette.mode);
+                  return {
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '18px',
+                      color: t.text,
+                      fontSize: 16.5,
+                      fontFamily: '"Inter", sans-serif',
+                      py: 0.625,
+                      '& fieldset': { border: 'none' },
+                    },
+                    '& .MuiInputBase-input': { px: 0 },
+                    '& .MuiInputBase-input::placeholder': {
+                      color: t.muted2,
+                      opacity: 1,
+                    },
+                  };
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted, fontSize: 22 })} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        title="Search"
+                        onClick={() => runSearch()}
+                        sx={(theme) => {
+                          const t = getModeTokens(theme.palette.mode);
+                          return {
+                            width: 44,
+                            height: 44,
+                            borderRadius: '13px',
+                            color: etpTokens.ink,
+                            background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
+                            boxShadow: '0 6px 18px rgba(134,188,37,.4)',
+                            transition: '.2s',
+                            '&:hover': {
+                              transform: 'scale(1.06)',
+                              background: `linear-gradient(120deg, ${t.lime}, ${t.green})`,
+                            },
+                          };
+                        }}
+                      >
+                        <ArrowForwardIcon sx={{ fontSize: 20 }} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Paper>
+
+            {trimmedQuery && (
+              <Paper
+                elevation={0}
+                sx={(theme) => {
+                  const t = getModeTokens(theme.palette.mode);
+                  return {
+                    mt: 1.25,
+                    textAlign: 'left',
+                    bgcolor: t.surface,
+                    border: `1px solid ${t.border}`,
+                    borderRadius: '16px',
+                    boxShadow: `0 30px 70px ${t.shadow}`,
+                    overflow: 'hidden',
+                    maxHeight: 326,
+                    overflowY: 'auto',
+                    animation: 'fadeUp .2s both',
+                  };
+                }}
+              >
+                {suggestions.length ? suggestions.map((group) => (
+                  <Box key={group.label}>
+                    <Typography sx={(theme) => ({ px: 1.875, pt: 1.375, pb: 0.625, color: getModeTokens(theme.palette.mode).muted2, fontSize: 10.5, fontWeight: 800, letterSpacing: '1.2px', textTransform: 'uppercase' })}>
+                      {group.label}
+                    </Typography>
+                    {group.items.map((item) => (
+                      <Box
+                        key={item}
+                        onClick={() => runSearch(item)}
+                        sx={(theme) => {
+                          const t = getModeTokens(theme.palette.mode);
+                          return {
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            px: 1.75,
+                            py: 1.25,
+                            cursor: 'pointer',
+                            transition: '.14s',
+                            '&:hover': { bgcolor: t.panel },
+                          };
+                        }}
+                      >
+                        <Box sx={(theme) => ({ width: 36, height: 36, borderRadius: '11px', display: 'grid', placeItems: 'center', color: getModeTokens(theme.palette.mode).lime, bgcolor: getModeTokens(theme.palette.mode).surface2, border: `1px solid ${getModeTokens(theme.palette.mode).borderSoft}` })}>
+                          <SearchIcon sx={{ fontSize: 17 }} />
+                        </Box>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                          <Typography sx={{ fontSize: 13.5, fontWeight: 700 }}>{item}</Typography>
+                          <Typography sx={(theme) => ({ fontSize: 11.5, color: getModeTokens(theme.palette.mode).muted })}>
+                            Search the ET&amp;P catalogue
+                          </Typography>
+                        </Box>
+                        <ArrowForwardIcon sx={(theme) => ({ color: getModeTokens(theme.palette.mode).muted2, fontSize: 15 })} />
+                      </Box>
+                    ))}
+                  </Box>
+                )) : (
+                  <Typography sx={(theme) => ({ p: 3, color: getModeTokens(theme.palette.mode).muted2, fontSize: 13.5, textAlign: 'center' })}>
+                    No matches. Press Enter to search anyway.
+                  </Typography>
+                )}
+              </Paper>
+            )}
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
+            {quickSearches.map((link) => (
               <Chip
                 key={link}
                 label={link}
-                onClick={() => onSearch(link)}
-                variant="outlined"
-                sx={{
-                  fontSize: 12.5,
-                  fontWeight: 600,
-                  color: '#8A968C',
-                  borderColor: 'rgba(255,255,255,.09)',
-                  bgcolor: 'rgba(255,255,255,.05)',
-                  fontFamily: '"Inter", sans-serif',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    color: '#A3E635',
-                    borderColor: 'rgba(134,188,37,.18)',
-                  },
+                onClick={() => runSearch(link)}
+                clickable
+                sx={(theme) => {
+                  const t = getModeTokens(theme.palette.mode);
+                  return {
+                    height: 34,
+                    borderRadius: '20px',
+                    color: t.muted,
+                    bgcolor: theme.palette.mode === 'light' ? 'rgba(20,45,10,.05)' : 'rgba(255,255,255,.05)',
+                    border: `1px solid ${t.borderSoft}`,
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    '&:hover': {
+                      color: t.lime,
+                      borderColor: t.border,
+                      bgcolor: t.panel,
+                    },
+                  };
                 }}
               />
             ))}
           </Box>
 
-          {/* Skip to home */}
-          <Typography
+          <Button
+            endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
             onClick={() => onSearch('')}
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 1,
-              color: '#8A968C',
+            sx={(theme) => ({
+              color: getModeTokens(theme.palette.mode).muted,
               fontSize: 13.5,
-              cursor: 'pointer',
-              mt: 3,
-              transition: '.2s',
-              '&:hover': { color: '#A3E635' },
-            }}
+              '&:hover': { color: getModeTokens(theme.palette.mode).lime, bgcolor: 'transparent' },
+            })}
           >
             Skip to home
-            <ArrowForwardIcon sx={{ fontSize: 16 }} />
-          </Typography>
+          </Button>
         </Box>
-      </Box>
+      </SearchPageBackground>
     </Fade>
   );
 };

@@ -1,40 +1,25 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Box, Tabs, Tab } from '@mui/material';
+import { useMemo, useState } from 'react';
+import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
 import SearchPage from './features/search/SearchPage';
 import DashboardFeature from './features/dashboard/Dashboard';
-import AssetDetailsPlaceholder from './features/assetDetails/AssetDetails';
+import AssetDetails from './features/assetDetails/AssetDetails';
+import { IAsset } from './models/IAsset';
+import { createEtpTheme } from './theme/etpTheme';
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#9c27b0',
-    },
-    background: {
-      default: '#f5f5f5',
-      paper: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: '"Inter", "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  shape: {
-    borderRadius: 12,
-  },
-});
+type ActivePage = 'search' | 'dashboard' | 'assetDetails';
 
 /**
- * Page switcher that simulates the 3 SPFx webparts.
- * In the real SPFx project each page is a separate webpart.
- * Here we use tabs + state to switch between them.
+ * State-based page switcher for standalone development.
+ * The SPFx project renders these as separate webparts.
  */
 const App: React.FC = () => {
-  const [activePage, setActivePage] = useState<'search' | 'dashboard' | 'assetDetails'>('search');
+  const [activePage, setActivePage] = useState<ActivePage>('search');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedAsset, setSelectedAsset] = useState<IAsset | null>(null);
+  const [mode, setMode] = useState<PaletteMode>('dark');
+
+  const theme = useMemo(() => createEtpTheme(mode), [mode]);
 
   const handleSearch = (query: string): void => {
     setSearchQuery(query);
@@ -45,23 +30,22 @@ const App: React.FC = () => {
     setActivePage('search');
   };
 
+  const handleAssetSelect = (asset: IAsset): void => {
+    setSelectedAsset(asset);
+    setActivePage('assetDetails');
+  };
+
+  const handleBackToDashboard = (): void => {
+    setActivePage('dashboard');
+  };
+
+  const handleToggleTheme = (): void => {
+    setMode((currentMode) => currentMode === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* Dev-only tab bar to switch between webpart pages */}
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'background.paper' }}>
-        <Tabs
-          value={activePage}
-          onChange={(_, val) => setActivePage(val)}
-          sx={{ px: 2 }}
-        >
-          <Tab label="Assets Portal (Search)" value="search" />
-          <Tab label="Dashboard" value="dashboard" />
-          <Tab label="Asset Details" value="assetDetails" />
-        </Tabs>
-      </Box>
-
-      {/* Page content */}
       {activePage === 'search' && (
         <SearchPage onSearch={handleSearch} />
       )}
@@ -70,10 +54,21 @@ const App: React.FC = () => {
           searchQuery={searchQuery}
           onBackToSearch={handleBackToSearch}
           onSearch={handleSearch}
+          onAssetSelect={handleAssetSelect}
+          mode={mode}
+          onToggleTheme={handleToggleTheme}
         />
       )}
       {activePage === 'assetDetails' && (
-        <AssetDetailsPlaceholder />
+        <AssetDetails
+          asset={selectedAsset}
+          mode={mode}
+          onBackToDashboard={handleBackToDashboard}
+          onBackToSearch={handleBackToSearch}
+          onSearch={handleSearch}
+          onAssetSelect={handleAssetSelect}
+          onToggleTheme={handleToggleTheme}
+        />
       )}
     </ThemeProvider>
   );
