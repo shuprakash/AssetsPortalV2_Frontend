@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AssetCard from '../../components/Assets/AssetCard';
 import FilterSidebar, { IFilterOption, IFilterState } from '../../components/Assets/FilterSidebar';
+import { LOAD_MORE_ASSET_COUNT } from '../../constants/dashboard';
 import { IAsset } from '../../models/IAsset';
 import { etpTokens, getModeTokens } from '../../theme/etpTheme';
 
@@ -262,7 +263,7 @@ const AssetFilterComponent: React.FC<IAssetFilterComponentProps> = ({
             <Box sx={{ textAlign: 'center', mt: 3.75 }}>
               {filteredAssets.length > visibleAssets.length && (
                 <Button
-                  onClick={() => setVisibleCount((current) => Math.min(current + 25, filteredAssets.length))}
+                  onClick={() => setVisibleCount((current) => Math.min(current + LOAD_MORE_ASSET_COUNT, filteredAssets.length))}
                   sx={(theme) => {
                     const t = getModeTokens(theme.palette.mode);
                     return {

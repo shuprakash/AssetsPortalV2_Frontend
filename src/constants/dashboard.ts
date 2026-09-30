@@ -1,0 +1,5 @@
+export const DEFAULT_VISIBLE_ASSET_COUNT = 25;
+export const HOME_HERO_ASSET_LIMIT = 3;
+export const HOME_HERO_ROTATION_MS = 5000;
+export const HOME_SECTION_ASSET_LIMIT = 8;
+export const LOAD_MORE_ASSET_COUNT = 25;

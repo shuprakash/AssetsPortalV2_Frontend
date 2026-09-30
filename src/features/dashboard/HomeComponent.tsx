@@ -8,9 +8,11 @@ import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import AssetCard from '../../components/Assets/AssetCard';
+import { HOME_HERO_ASSET_LIMIT, HOME_HERO_ROTATION_MS, HOME_SECTION_ASSET_LIMIT } from '../../constants/dashboard';
 import { PortalNavKey } from '../../components/Layout/NavigationBar';
 import { IAsset } from '../../models/IAsset';
 import { etpTokens, getModeTokens } from '../../theme/etpTheme';
+import { getAgenticAssets, getFreshAssets, getPortfolioCount, getTrendingAssets } from '../../utils/assetSelectors';
 
 export interface IHomeComponentProps {
   assets: IAsset[];
@@ -22,32 +24,19 @@ export interface IHomeComponentProps {
 const HomeComponent: React.FC<IHomeComponentProps> = ({ assets, loading, onAssetSelect, onNavigate }) => {
   const [heroIndex, setHeroIndex] = React.useState<number>(0);
 
-  const trendingAssets = React.useMemo(() => (
-    [...assets].sort((a, b) => b.downloads - a.downloads || b.rating - a.rating).slice(0, 8)
-  ), [assets]);
+  const trendingAssets = React.useMemo(() => getTrendingAssets(assets, HOME_SECTION_ASSET_LIMIT), [assets]);
 
-  const agenticAssets = React.useMemo(() => (
-    assets
-      .filter((asset) => asset.badge === 'agentic')
-      .sort((a, b) => b.rating - a.rating || b.downloads - a.downloads)
-      .slice(0, 8)
-  ), [assets]);
+  const agenticAssets = React.useMemo(() => getAgenticAssets(assets, HOME_SECTION_ASSET_LIMIT), [assets]);
 
-  const freshAssets = React.useMemo(() => (
-    [...assets]
-      .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
-      .slice(0, 8)
-  ), [assets]);
+  const freshAssets = React.useMemo(() => getFreshAssets(assets, HOME_SECTION_ASSET_LIMIT), [assets]);
 
-  const portfolioCount = React.useMemo(() => {
-    return new Set(assets.map((asset) => asset.portfolioName)).size;
-  }, [assets]);
+  const portfolioCount = React.useMemo(() => getPortfolioCount(assets), [assets]);
 
   React.useEffect(() => {
     setHeroIndex(0);
   }, [trendingAssets.length]);
 
-  const heroAssets = trendingAssets.slice(0, 3);
+  const heroAssets = trendingAssets.slice(0, HOME_HERO_ASSET_LIMIT);
   const heroAsset = heroAssets[heroIndex] || trendingAssets[0] || assets[0];
 
   React.useEffect(() => {
@@ -55,7 +44,7 @@ const HomeComponent: React.FC<IHomeComponentProps> = ({ assets, loading, onAsset
 
     const timer = window.setInterval(() => {
       setHeroIndex((current) => (current + 1) % heroAssets.length);
-    }, 5000);
+    }, HOME_HERO_ROTATION_MS);
 
     return () => window.clearInterval(timer);
   }, [heroAssets.length]);

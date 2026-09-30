@@ -3,8 +3,16 @@ import { Box, Button, Chip, Typography } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import {
+  assetChampions,
+  championRegionByKey,
+  championRegionFilters,
+  ChampionRegionFilter,
+  getChampionRegionCount,
+  IAssetChampion,
+  IChampionFlag,
+} from '../../data/assetChampions';
 import { IAsset } from '../../models/IAsset';
-import { assetChampions, ChampionRegion, IAssetChampion } from '../../data/assetChampions';
 import { etpTokens, getModeTokens } from '../../theme/etpTheme';
 
 export interface IAssetChampionCmpProps {
@@ -12,87 +20,56 @@ export interface IAssetChampionCmpProps {
   onAssetSelect: (asset: IAsset) => void;
 }
 
-type RegionFilter = 'all' | ChampionRegion;
-
-const regionFilters: Array<{ key: RegionFilter; label: string }> = [
-  { key: 'all', label: 'All regions' },
-  { key: 'india', label: '🇮🇳 India' },
-  { key: 'australia', label: '🇦🇺 Australia' },
-  { key: 'middle-east', label: '🇦🇪 Middle East' },
-  { key: 'japan', label: '🇯🇵 Japan' },
-  { key: 'china', label: '🇨🇳 China' },
-  { key: 'united-kingdom', label: '🇬🇧 United Kingdom' },
-  { key: 'global', label: '🌐 Global' },
-];
-
-const getRegionCount = (region: RegionFilter): number => (
-  region === 'all'
-    ? assetChampions.length
-    : assetChampions.filter((champion) => champion.region === region).length
-);
-
-const regionNames: Record<ChampionRegion, string> = {
-  india: 'India',
-  australia: 'Australia',
-  'middle-east': 'Middle East',
-  japan: 'Japan',
-  china: 'China',
-  'united-kingdom': 'United Kingdom',
-  global: 'Global',
-};
-
-const flagStyles: Record<ChampionRegion, { background: string; label?: string }> = {
-  india: { background: 'linear-gradient(180deg, #ff9933 0 33%, #fff 33% 66%, #138808 66%)' },
-  australia: { background: '#153b8a', label: '*' },
-  'middle-east': { background: 'linear-gradient(180deg, #00843d 0 33%, #fff 33% 66%, #000 66%)' },
-  japan: { background: 'radial-gradient(circle, #bc002d 0 31%, #fff 33%)' },
-  china: { background: '#de2910', label: '*' },
-  'united-kingdom': { background: '#012169', label: '+' },
-  global: { background: '#0b8fab', label: '@' },
-};
-
-const RegionChip: React.FC<{ champion: IAssetChampion }> = ({ champion }) => (
-  <Chip
-    label={(
-      <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.625 }}>
-        <Box
-          component="span"
-          sx={{
-            width: 14,
-            height: 10,
-            display: 'inline-grid',
-            placeItems: 'center',
-            flexShrink: 0,
-            borderRadius: '2px',
-            background: flagStyles[champion.region].background,
-            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.35)',
-            color: '#fff',
-            fontSize: 8,
-            fontWeight: 900,
-            lineHeight: 1,
-          }}
-        >
-          {flagStyles[champion.region].label || ''}
-        </Box>
-        {regionNames[champion.region]}
-      </Box>
-    )}
-    size="small"
-    sx={(theme) => {
-      const t = getModeTokens(theme.palette.mode);
-      return {
-        height: 23,
-        borderRadius: '14px',
-        color: t.text,
-        bgcolor: t.panel,
-        border: `1px solid ${t.borderSoft}`,
-        fontSize: 11,
-        fontWeight: 800,
-        '& .MuiChip-label': { px: 1 },
-      };
+const FlagMark: React.FC<{ flag: IChampionFlag }> = ({ flag }) => (
+  <Box
+    component="span"
+    sx={{
+      width: 14,
+      height: 10,
+      display: 'inline-grid',
+      placeItems: 'center',
+      flexShrink: 0,
+      borderRadius: '2px',
+      background: flag.background,
+      boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.35)',
+      color: flag.color || '#fff',
+      fontSize: 8,
+      fontWeight: 900,
+      lineHeight: 1,
     }}
-  />
+  >
+    {flag.label || ''}
+  </Box>
 );
+
+const RegionChip: React.FC<{ champion: IAssetChampion }> = ({ champion }) => {
+  const region = championRegionByKey[champion.region];
+
+  return (
+    <Chip
+      label={(
+        <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.625 }}>
+          <FlagMark flag={region.flag} />
+          {region.label}
+        </Box>
+      )}
+      size="small"
+      sx={(theme) => {
+        const t = getModeTokens(theme.palette.mode);
+        return {
+          height: 23,
+          borderRadius: '14px',
+          color: t.text,
+          bgcolor: t.panel,
+          border: `1px solid ${t.borderSoft}`,
+          fontSize: 11,
+          fontWeight: 800,
+          '& .MuiChip-label': { px: 1 },
+        };
+      }}
+    />
+  );
+};
 
 const ChampionCard: React.FC<{ champion: IAssetChampion; featured: boolean }> = ({ champion, featured }) => (
   <Box
@@ -217,7 +194,7 @@ const ChampionCard: React.FC<{ champion: IAssetChampion; featured: boolean }> = 
 );
 
 const AssetChampionCmp: React.FC<IAssetChampionCmpProps> = () => {
-  const [selectedRegion, setSelectedRegion] = React.useState<RegionFilter>('all');
+  const [selectedRegion, setSelectedRegion] = React.useState<ChampionRegionFilter>('all');
 
   const visibleChampions = React.useMemo(() => (
     selectedRegion === 'all'
@@ -270,7 +247,7 @@ const AssetChampionCmp: React.FC<IAssetChampionCmpProps> = () => {
           scrollbarWidth: 'none',
         }}
       >
-        {regionFilters.map((filter) => {
+        {championRegionFilters.map((filter) => {
           const active = selectedRegion === filter.key;
           return (
             <Button
@@ -297,9 +274,12 @@ const AssetChampionCmp: React.FC<IAssetChampionCmpProps> = () => {
                 };
               }}
             >
-              {filter.label}
+              <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.625 }}>
+                {filter.region && <FlagMark flag={filter.region.flag} />}
+                {filter.label}
+              </Box>
               <Box component="span" sx={{ ml: 0.75, opacity: active ? 0.7 : 0.55 }}>
-                {getRegionCount(filter.key)}
+                {getChampionRegionCount(filter.key)}
               </Box>
             </Button>
           );

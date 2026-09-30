@@ -3,9 +3,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, PaletteMode } from '@mui/material';
 import { IFilterOption, IFilterState } from '../../components/Assets/FilterSidebar';
 import NavigationBar, { PortalNavKey } from '../../components/Layout/NavigationBar';
+import { DEFAULT_VISIBLE_ASSET_COUNT } from '../../constants/dashboard';
 import { IAsset } from '../../models/IAsset';
-import { SharePointService } from '../../services/SharePointService';
-import { assetMatchesTerms, getAssetHaystack, getOptionCounts, getPortfolioOptions, getRelevanceScore } from '../../utils/assetHelpers';
+import { AssetRepository } from '../../repositories/AssetRepository';
+import { buildAssetFilterOptions, filterAndSortAssets, getActiveFilterCount } from '../../utils/assetSelectors';
 import { getModeTokens } from '../../theme/etpTheme';
 import AssetChampionCmp from './AssetChampionCmp';
 import AssetFilterComponent, { ExploreSortKey } from './AssetFilterComponent';
@@ -73,20 +74,20 @@ const Dashboard: React.FC<IDashboardProps> = ({
   const [termMode, setTermMode] = useState<'any' | 'all'>('any');
   const [filters, setFilters] = useState<IFilterState>(defaultFilters);
   const [sort, setSort] = useState<SortKey>('az');
-  const [visibleCount, setVisibleCount] = useState<number>(25);
+  const [visibleCount, setVisibleCount] = useState<number>(DEFAULT_VISIBLE_ASSET_COUNT);
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
   const [activeNav, setActiveNav] = useState<PortalNavKey>(searchQuery.trim() ? 'results' : 'home');
 
   useEffect(() => {
     let mounted = true;
-    const service = new SharePointService();
+    const assetRepository = new AssetRepository();
     setLoading(true);
     setError(null);
 
-    service.getListItems('Assets')
+    assetRepository.getAssets()
       .then((items) => {
         if (!mounted) return;
-        setAssets(items as IAsset[]);
+        setAssets(items);
       })
       .catch((err) => {
         if (!mounted) return;
@@ -107,23 +108,23 @@ const Dashboard: React.FC<IDashboardProps> = ({
     setTerms(cleanQuery ? [cleanQuery] : []);
     setSort(cleanQuery ? 'rel' : 'az');
     setActiveNav(cleanQuery ? 'results' : 'home');
-    setVisibleCount(25);
+    setVisibleCount(DEFAULT_VISIBLE_ASSET_COUNT);
   }, [searchQuery]);
 
   const patchFilters = useCallback((nextFilters: IFilterState) => {
     setFilters(nextFilters);
-    setVisibleCount(25);
+    setVisibleCount(DEFAULT_VISIBLE_ASSET_COUNT);
   }, []);
 
   const clearFilters = useCallback(() => {
     setFilters(defaultFilters);
-    setVisibleCount(25);
+    setVisibleCount(DEFAULT_VISIBLE_ASSET_COUNT);
   }, []);
 
   const clearSearch = useCallback(() => {
     setTerms([]);
     setSort('az');
-    setVisibleCount(25);
+    setVisibleCount(DEFAULT_VISIBLE_ASSET_COUNT);
   }, []);
 
   const setDashboardNav = useCallback((nav: PortalNavKey) => {
@@ -133,7 +134,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
     }
 
     setActiveNav(nav);
-    setVisibleCount(25);
+    setVisibleCount(DEFAULT_VISIBLE_ASSET_COUNT);
     if (nav === 'home' || nav === 'explore' || nav === 'champions') {
       setTerms([]);
       setFilters(defaultFilters);
@@ -153,74 +154,14 @@ const Dashboard: React.FC<IDashboardProps> = ({
     }
   }, [onBackToSearch]);
 
-  const filterOptions = useMemo(() => {
-    const portfolios = getPortfolioOptions(assets);
-    const portfolioCounts = getOptionCounts(assets, (asset) => asset.portfolioName);
-    const typeCounts = getOptionCounts(assets, (asset) => asset.assetType);
-    const availabilityCounts = getOptionCounts(assets, (asset) => asset.availability);
-    const themeCounts = getOptionCounts(assets, (asset) => asset.theme);
-    const geographyValues = Array.from(new Set(assets.flatMap((asset) => asset.geography))).sort();
-    const geographyCounts = geographyValues.reduce<Record<string, number>>((acc, geo) => {
-      acc[geo] = assets.filter((asset) => asset.geography.includes(geo)).length;
-      return acc;
-    }, {});
+  const filterOptions = useMemo(() => buildAssetFilterOptions(assets), [assets]);
 
-    return {
-      portfolios: [
-        { value: 'all', label: 'All portfolios', count: assets.length },
-        ...portfolios.map((portfolio) => ({ value: portfolio, label: portfolio, count: portfolioCounts[portfolio] || 0 })),
-      ],
-      assetTypes: Object.keys(typeCounts).sort().map((type) => ({ value: type, label: type, count: typeCounts[type] })),
-      availability: Object.keys(availabilityCounts).sort().map((availability) => ({ value: availability, label: availability, count: availabilityCounts[availability] })),
-      geography: geographyValues.map((geo) => ({ value: geo, label: geo, count: geographyCounts[geo] })),
-      themes: Object.keys(themeCounts).sort().map((theme) => ({ value: theme, label: theme, count: themeCounts[theme] })),
-    };
-  }, [assets]);
-
-  const filteredAssets = useMemo(() => {
-    const refineText = filters.refineText.trim().toLowerCase();
-
-    const filtered = assets.filter((asset) => {
-      if (!assetMatchesTerms(asset, terms, termMode)) return false;
-      if (refineText && !getAssetHaystack(asset).includes(refineText)) return false;
-      if (filters.portfolio !== 'all' && asset.portfolioName !== filters.portfolio) return false;
-      if (filters.assetTypes.length && !filters.assetTypes.includes(asset.assetType)) return false;
-      if (filters.availability.length && !filters.availability.includes(asset.availability)) return false;
-      if (filters.geography.length && !asset.geography.some((geo) => filters.geography.includes(geo))) return false;
-      if (filters.themes.length && !filters.themes.includes(asset.theme)) return false;
-      if (filters.residency === 'required' && !asset.dataResidency.required) return false;
-      if (filters.residency === 'none' && asset.dataResidency.required) return false;
-      if (filters.minRating !== 'all' && asset.rating < Number(filters.minRating)) return false;
-      if (filters.quick.includes('new') && !['Pilot', 'Beta'].includes(asset.availability)) return false;
-      if (filters.quick.includes('featured') && asset.downloads < 4 && asset.rating < 4.5) return false;
-      if (filters.quick.includes('top') && asset.rating < 4.5) return false;
-      if (filters.quick.includes('agentic') && asset.badge !== 'agentic') return false;
-      if (filters.quick.includes('genai') && asset.badge !== 'genai') return false;
-      return true;
-    });
-
-    return [...filtered].sort((a, b) => {
-      if (sort === 'rel') return getRelevanceScore(b, terms) - getRelevanceScore(a, terms);
-      if (sort === 'az') return a.title.localeCompare(b.title);
-      if (sort === 'za') return b.title.localeCompare(a.title);
-      if (sort === 'dl') return b.downloads - a.downloads || a.title.localeCompare(b.title);
-      if (sort === 'rt') return b.rating - a.rating || a.title.localeCompare(b.title);
-      return a.portfolioName.localeCompare(b.portfolioName) || a.title.localeCompare(b.title);
-    });
-  }, [assets, filters, sort, termMode, terms]);
+  const filteredAssets = useMemo(() => (
+    filterAndSortAssets({ assets, filters, sort, termMode, terms })
+  ), [assets, filters, sort, termMode, terms]);
 
   const visibleAssets = filteredAssets.slice(0, visibleCount);
-  const activeFilterCount = (
-    (filters.refineText ? 1 : 0) +
-    filters.quick.length +
-    (filters.portfolio !== 'all' ? 1 : 0) +
-    filters.assetTypes.length +
-    filters.availability.length +
-    filters.geography.length +
-    filters.themes.length +
-    (filters.residency !== 'all' ? 1 : 0) +
-    (filters.minRating !== 'all' ? 1 : 0)
-  );
+  const activeFilterCount = getActiveFilterCount(filters);
 
   const pageTitle = terms.length
     ? (
