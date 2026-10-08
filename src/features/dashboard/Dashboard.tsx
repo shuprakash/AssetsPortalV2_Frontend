@@ -8,7 +8,7 @@ import { IAsset } from '../../models/IAsset';
 import { AssetRepository } from '../../repositories/AssetRepository';
 import { buildAssetFilterOptions, filterAndSortAssets, getActiveFilterCount } from '../../utils/assetSelectors';
 import { getModeTokens } from '../../theme/etpTheme';
-import AssetChampionCmp from './AssetChampionCmp';
+import AssetChampionComponent from './AssetChampionComponent';
 import AssetFilterComponent, { ExploreSortKey } from './AssetFilterComponent';
 import HomeComponent from './HomeComponent';
 
@@ -198,7 +198,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
     )
     : activeNav === 'champions'
       ? (
-        <AssetChampionCmp
+        <AssetChampionComponent
           assets={assets}
           onAssetSelect={onAssetSelect}
         />

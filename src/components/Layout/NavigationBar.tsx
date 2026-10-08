@@ -221,7 +221,7 @@ const NavigationBar: React.FC<INavigationBarProps> = ({
               };
             }}
           >
-            AK
+            SP
           </Box>
         </Box>
       </Box>

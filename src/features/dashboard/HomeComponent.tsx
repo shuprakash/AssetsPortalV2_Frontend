@@ -170,7 +170,7 @@ const HomeComponent: React.FC<IHomeComponentProps> = ({ assets, loading, onAsset
             maxWidth: 780,
           }}
         >
-          Welcome back, Ashish
+          Welcome back, Shubham
         </Typography>
         <Typography
           sx={(theme) => ({
